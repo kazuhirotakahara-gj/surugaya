@@ -27,6 +27,17 @@ public class Cardboard : MonoBehaviour
         get { return IsTopClosed && IsSideClosed; }
     }
 
+    private Queue<float> dragSpeedQueue = new Queue<float>();
+    private Vector3 lastDragPosition = Vector3.zero;
+
+    private Vector3 initPosition = Vector3.zero;
+
+    public float FlingSpeedRatio = 0.5f;
+    private bool Flinging = false;
+    private float FlingSpeed = 0.0f;
+    private Vector3 LastFlingVector;
+    public float FlingSpeedAccel = 100.0f;
+
     private Status status = Status.NoClose;
     public Status CurrentStatus
     {
@@ -58,10 +69,17 @@ public class Cardboard : MonoBehaviour
     void Start()
     {
         CurrentStatus = Status.NoClose;
+        initPosition = transform.position;
     }
 
     void Update()
     {
+        if(Flinging)
+        {
+            var additionalPos = LastFlingVector * Time.deltaTime;
+            additionalPos.z = 0;
+            transform.position += additionalPos * FlingSpeed;
+        }
     }
 
     public void OnMouseClickBySide()
@@ -94,5 +112,55 @@ public class Cardboard : MonoBehaviour
         }
         else
             CurrentStatus = Status.TopClosed;
+    }
+
+    private Vector3 CalcDragPos()
+    {
+        Vector3 pos = Input.mousePosition;
+        pos.z = 1;
+        return Camera.main.ScreenToWorldPoint(pos);
+    }
+
+    public void OnDrag()
+    {
+        var oldPos = transform.position;
+        var currentPos = CalcDragPos();
+        var speed = Vector3.Distance(currentPos, oldPos);
+        dragSpeedQueue.Enqueue(speed);
+        if(dragSpeedQueue.Count >= 10)
+        {
+            dragSpeedQueue.Dequeue();
+        }
+
+        transform.position = currentPos;
+        LastFlingVector = currentPos - oldPos;
+    }
+
+    public void OnDragBegin()
+    {
+        lastDragPosition = CalcDragPos();
+    }
+
+    public void OnEndDrag()
+    {
+        if (dragSpeedQueue.Count == 0) return;
+
+        float totalSpeed = 0;
+        foreach(float speed in dragSpeedQueue)
+        {
+            totalSpeed += speed;
+        }
+        float avgSpeed = totalSpeed / dragSpeedQueue.Count;
+
+        if(avgSpeed < FlingSpeedRatio)
+        {
+            transform.position = initPosition;
+        }
+        else
+        {
+            Flinging = true;
+            FlingSpeed = avgSpeed * FlingSpeedAccel;
+            OutBoxCollider.SetActive(false);
+        }
     }
 }
