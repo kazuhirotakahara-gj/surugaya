@@ -6,6 +6,14 @@ public class Item : MonoBehaviour
 {
     public float Speed = 1.0f;
 
+    public bool AutoMove = false;
+
+    public Vector3 MoveDir = Vector3.left;
+
+    private Vector3 EndPosition = Vector3.left;
+
+    private bool FirstMove = true;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -14,7 +22,22 @@ public class Item : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        var deletable = true;
+        var deletable = false;
+        if (AutoMove)
+        {
+            if(FirstMove)
+            {
+                EndPosition = transform.localPosition;
+                EndPosition.x = -transform.localPosition.x;
+                FirstMove = false;
+            }
+
+            transform.localPosition += MoveDir * Speed * Time.deltaTime;
+
+            if(transform.localPosition.x < EndPosition.x)
+                deletable = true;
+        }
+
         var image = TryGetItemImage();
         if(image != null)
         {
@@ -24,6 +47,8 @@ public class Item : MonoBehaviour
 
         if (deletable == false)
             return;
+
+        GameObject.Destroy(gameObject);
     }
 
     ItemImage TryGetItemImage()

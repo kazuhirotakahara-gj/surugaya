@@ -55,6 +55,10 @@ MonoBehaviour:
   - {fileID: 6634620025418039746, guid: e62c1101229920846a25d1705e93abba, type: 3}
   - {fileID: 4520533175908197465, guid: babad18c751062a47abade087bbf557b, type: 3}
   - {fileID: 2896956561045193083, guid: c4f9de4a30af96746a2a6e890e53bbf8, type: 3}
+  IntervalSecond: 2
+  CurrentIntervalSecond: 0
+  CurrentMoveSpeed: 2
+  SpawnOffset: {x: 11, y: 1.2, z: 0}
 --- !u!114 &802333311750982503
 MonoBehaviour:
   m_ObjectHideFlags: 0
