@@ -18,16 +18,21 @@ public class TitleMenu : MonoBehaviour
 
     public void OnClickCampaignMode()
     {
-        UnityEngine.SceneManagement.SceneManager.LoadScene("Scenes/Splash0");
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Scenes/SelectLevel");
     }
 
     public void OnClickExtraContents()
     {
-        UnityEngine.SceneManagement.SceneManager.LoadScene("Scenes/Splash1");
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Scenes/ExtraContents");
     }
 
     public void OnClickOptions()
     {
-        UnityEngine.SceneManagement.SceneManager.LoadScene("Scenes/Splash2");
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Scenes/Options");
+    }
+
+    public void OnClickCredits()
+    {
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Scenes/Credits");
     }
 }
