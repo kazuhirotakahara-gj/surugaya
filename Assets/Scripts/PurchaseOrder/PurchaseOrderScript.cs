@@ -35,6 +35,10 @@ public class PurchaseOrderScript : MonoBehaviour
 
     private bool mIsDestory = false;
 
+    public int Rand1Parcent ;
+    public int Rand2Parcent ;
+    public int Rand3Parcent ;
+
     private int mWaitDestroyFlame = 0;
     List<int> OrderItemList = new List<int>((int)ItemName.eITEM_MAX)
     {
@@ -64,8 +68,35 @@ public class PurchaseOrderScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //SetProperty(ItemName.eITEM_0, ItemName.eITEM_1, ItemName.eITEM_2);
+        //ランダム生成。必要なければ消しちゃってください。
+        RandCreateProperty();
         setImage();
+    }
+
+    void RandCreateProperty()
+    {
+        var rand = Random.Range(0, Rand1Parcent+ Rand2Parcent+ Rand3Parcent);
+        uint createSum = 0;
+        int[] createItem = new int[3] { (int)ItemName.eITEM_INVALID, (int)ItemName.eITEM_INVALID, (int)ItemName.eITEM_INVALID, }; 
+        if(rand < Rand1Parcent)
+        {
+            createSum = 1;
+        }
+        else if(rand < Rand1Parcent+ Rand2Parcent)
+        {
+            createSum = 2;
+        }
+        else
+        {
+            createSum = 3;
+        }
+
+        for(int n = 0; n < createSum; n++)
+        {
+            createItem[n] = Random.Range(0, (int)ItemName.eITEM_INVALID);
+        }
+
+        SetProperty((ItemName)createItem[0], (ItemName)createItem[1], (ItemName)createItem[2]);
     }
 
     void setImage()
