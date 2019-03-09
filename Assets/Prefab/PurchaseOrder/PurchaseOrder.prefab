@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 314147266203083391}
   - component: {fileID: 314147266203083384}
+  - component: {fileID: 1638741682802856394}
   m_Layer: 0
   m_Name: PurchaseOrder
   m_TagString: Untagged
@@ -51,9 +52,6 @@ MonoBehaviour:
   Item2Object: {fileID: 2604470737420214025}
   Item3Object: {fileID: 6605641701313100374}
   TextCanvas: {fileID: 0}
-  Item1Text: {fileID: 0}
-  Item2Text: {fileID: 0}
-  Item3Text: {fileID: 0}
   TexuteImage:
   - {fileID: 5362629694201633035, guid: 0d3bb7e79a8e7c445a26becb1e2883a8, type: 3}
   - {fileID: 4335751913123339953, guid: 26dfa41a3a82f4e469b0d8c67a334be2, type: 3}
@@ -67,6 +65,35 @@ MonoBehaviour:
   - {fileID: 3776060275270446761, guid: c4f9de4a30af96746a2a6e890e53bbf8, type: 3}
   - {fileID: 2727281392085043592, guid: e04795b1e44a2f442a239750761172dc, type: 3}
   - {fileID: 0}
+  Rand1Parcent: 0
+  Rand2Parcent: 0
+  Rand3Parcent: 0
+--- !u!61 &1638741682802856394
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 314147266203083390}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.0000014305115, y: -0.0000019073486}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 13.814469, y: 8.657436}
+  m_EdgeRadius: 0
 --- !u!1 &314147267459805555
 GameObject:
   m_ObjectHideFlags: 0
