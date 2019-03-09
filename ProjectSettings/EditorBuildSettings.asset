@@ -27,6 +27,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Result.unity
     guid: ae18f3e2af5cf544bafc8d40fdb04850
   - enabled: 1
+    path: Assets/Scenes/ExtraContents.unity
+    guid: b30db609bd33eb542970496b3d8ba124
+  - enabled: 1
     path: Assets/Scenes/Options.unity
     guid: 2a3eadf47e0aecd4cad363b3aef17ba0
   - enabled: 1
