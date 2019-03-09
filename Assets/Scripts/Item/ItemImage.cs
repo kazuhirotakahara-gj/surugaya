@@ -86,6 +86,9 @@ public class ItemImage : MonoBehaviour
 
         gameObject.transform.parent = trans;
         State = ItemImageState.AtBox;
+        var sprite = gameObject.GetComponent<SpriteRenderer>();
+        if(sprite != null)
+            sprite.sortingOrder = 41;
 
         return true;
     }
