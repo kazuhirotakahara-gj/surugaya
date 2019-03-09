@@ -79,8 +79,11 @@ MonoBehaviour:
   _ItemMask:
     serializedVersion: 2
     m_Bits: 1024
-  _BoxMask:
+  _InBoxMask:
     serializedVersion: 2
     m_Bits: 512
+  _PurchaseMask:
+    serializedVersion: 2
+    m_Bits: 2048
   PickItemImageComponent: {fileID: 0}
   PickParchaseComponent: {fileID: 0}
