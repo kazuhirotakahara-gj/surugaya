@@ -159,7 +159,6 @@ public class PurchaseOrderScript : MonoBehaviour
     public GameObject Item2Object;
     public GameObject Item3Object;
 
-    private Vector3 StartPos;
     private bool[] IsDispObject = new bool[] { false, false, false };
     private int[] IsDispSize = new int[] { 0, 0, 0 };
     private int[] IsDispIndex = new int[] { 0, 0, 0 };
@@ -197,7 +196,6 @@ public class PurchaseOrderScript : MonoBehaviour
         // ランダム生成。必要なければ消しちゃってください。
         RandCreateProperty();
         setImage();
-        StartPos = this.transform.position;
         mState = PurchaseOrderStete.eState_Wait;
     }
 
@@ -210,7 +208,7 @@ public class PurchaseOrderScript : MonoBehaviour
             return false;
 
         mState = PurchaseOrderStete.eState_Wait;
-        this.transform.position = StartPos;
+        this.transform.localPosition = Vector3.zero;
         return true;
     }
 
@@ -292,7 +290,7 @@ public class PurchaseOrderScript : MonoBehaviour
         {
             case PurchaseOrderStete.eState_Create:
                 {
-
+                    mState = PurchaseOrderStete.eState_Wait;
                 }
                 break;
             case PurchaseOrderStete.eState_Wait:

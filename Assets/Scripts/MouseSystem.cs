@@ -29,17 +29,34 @@ public class MouseSystem : MonoBehaviour
     /// </summary>
     Vector3 _LastMousePoint = Vector3.zero;
 
-    public GameObject PickItemImageObject = null;
-    public GameObject PickItemPurchaseObject = null;
+    public GameObject PickObject = null;
 
     public MouseState State = MouseState.Invalid;
 
     public LayerMask _ItemMask = new LayerMask() { value = 1 };
 
-    public LayerMask _BoxMask = new LayerMask() { value = 9 };
+    public LayerMask _InBoxMask = new LayerMask() { value = 9 };
+
+    public LayerMask _PurchaseMask = new LayerMask();
 
     public ItemImage PickItemImageComponent;
-    public PurchaseOrderScript PickParchaseComponent;
+    public PurchaseOrderScript PickPurchaseOrderComponent;
+
+    public bool IsItemPicked
+    {
+        get
+        {
+            return PickItemImageComponent != null;
+        }
+    }
+
+    public bool IsPurchaseOrderPicked
+    {
+        get
+        {
+            return PickPurchaseOrderComponent != null;
+        }
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -87,12 +104,13 @@ public class MouseSystem : MonoBehaviour
         else
             State = MouseState.MouseUp;
 
-        var go = RayCastItem(pos, _ItemMask);
-        if(Trace)
-            Debug.Log("MouseDown:" + pos.ToString());
+        var go      = RayCastItem(pos, _PurchaseMask);
+        if(go == null)
+            go      = RayCastItem(pos, _ItemMask);
 
-        SetPickItemImageObject(go);
-        SetPickParhaceObject(go);
+        SetPickObject(go);
+        if (Trace)
+            Debug.Log("MouseDown:" + pos.ToString());
     }
 
     void OnMyMouseDrag(Vector3 pos)
@@ -104,15 +122,9 @@ public class MouseSystem : MonoBehaviour
         //if (_LastMousePoint == pos)
         //    return;
         {
-            var synced = SyncPickItemImageObjectPos(pos);
+            var synced = SyncPickObjectPos(pos);
             if (Trace && !synced)
                 Debug.Log("MouseDrag:" + pos.ToString());
-        }
-        {
-            var synced = SyncPickItemPurchaseObjectPos(pos);
-            if (Trace && !synced)
-                Debug.Log("MouseDrag:" + pos.ToString());
-            
         }
 
         return;
@@ -123,19 +135,26 @@ public class MouseSystem : MonoBehaviour
         _MouseDownScreenPosition = Vector3.zero;
 
         // とりあえず放す
-        if (PickItemImageObject != null)
+        if (PickObject != null)
         {
-            var box = RayCastItem(pos, _BoxMask);
-            if (box != null)
+            if(IsItemPicked)
             {
-                var junc = box.GetComponent<ItemJunction>();
-                PickItemImageComponent.TryInBox(junc);
+                var openBox = RayCastItem(pos, _InBoxMask);
+                if (openBox != null)
+                {
+                    var junc = openBox.GetComponent<ItemJunction>();
+                    PickItemImageComponent.TryInBox(junc);
+                }
+            }
+
+            if(IsPurchaseOrderPicked)
+            {
+
             }
         }
 
 
-        SetPickItemImageObject(null);
-        SetPickParhaceObject(null);
+        SetPickObject(null);
 
         if (Trace)
             Debug.Log("MouseUp:" + pos.ToString());
@@ -167,7 +186,7 @@ public class MouseSystem : MonoBehaviour
         var ray = Camera.main.ScreenPointToRay(pos);
         var hit = Physics2D.Raycast((Vector2)ray.origin, (Vector2)ray.direction, _MaxDistance, mask);
 
-        //なにかと衝突した時だけそのオブジェクトの名前をログに出す
+        //なにかと衝突した
         if (hit.collider)
         {
             var go  = hit.collider.gameObject;
@@ -177,90 +196,59 @@ public class MouseSystem : MonoBehaviour
         return null;
     }
 
-    void SetPickItemImageObject(GameObject obj)
+    void SetPickObject(GameObject obj)
     {
-        if (PickItemImageObject == null && obj == null)
-            return;
-
-        if(PickItemImageComponent != null)
+        if (IsItemPicked)
             PickItemImageComponent.TryMouseRelease();
 
-        var img = obj?.GetComponent<ItemImage>();
-        var result = false;
+        if (IsPurchaseOrderPicked)
+            PickPurchaseOrderComponent.TryMouseRelease();
 
-        if (img != null)
-            result = img.TryMousePick();
+        PickItemImageComponent      = null;
+        PickPurchaseOrderComponent  = null;
+        PickObject                  = null;
 
-        if(result)
-        {
-            PickItemImageObject     = obj;
-            PickItemImageComponent  = img;
-        }
-        else
-        {
-            PickItemImageObject     = null;
-            PickItemImageComponent  = null;
-        }
-
-    }
-
-    void SetPickParhaceObject(GameObject obj)
-    {
-        if (PickItemPurchaseObject == null && obj == null)
+        if (obj == null)
             return;
 
-        if (PickParchaseComponent != null)
-            PickParchaseComponent.TryMouseRelease();
 
-        var objcet = obj?.GetComponent<PurchaseOrderScript>();
-        var result = false;
-
-        if (objcet != null)
-            result = objcet.TryMousePick();
-
-        if (result)
+        var order = obj?.GetComponent<PurchaseOrderScript>();
+        if(order != null)
         {
-            PickItemPurchaseObject = obj;
-            PickParchaseComponent = objcet;
-        }
-        else
-        {
-            PickItemPurchaseObject = null;
-            PickParchaseComponent = null;
+            if(order.TryMousePick())
+            {
+                PickPurchaseOrderComponent  = order;
+                PickObject                  = obj;
+                return;
+            }
         }
 
+        var img = obj?.GetComponent<ItemImage>();
+        if (img != null)
+        {
+            if (img.TryMousePick())
+            {
+                PickObject              = obj;
+                PickItemImageComponent  = img;
+                return;
+            }
+        }
 
+        return;
     }
 
-    bool SyncPickItemImageObjectPos(Vector3 pos)
+    bool SyncPickObjectPos(Vector3 pos)
     {
-        if (PickItemImageObject == null)
+        if (PickObject == null)
             return false;
 
-        if (PickItemImageObject != null)
+        if (PickObject != null)
         {
             var s_pos = Camera.main.ScreenToWorldPoint(pos + Vector3.forward);
-            PickItemImageObject.transform.position = s_pos;
+            PickObject.transform.position = s_pos;
 
             if (Trace)
                 Debug.Log("Pick WorldPos:" + pos.ToString());
-        }
-        return true;
-    }
-
-    bool SyncPickItemPurchaseObjectPos(Vector3 pos)
-    {
-        if (PickItemPurchaseObject == null)
-            return false;
-
-        if (PickItemPurchaseObject != null)
-        {
-            var s_pos = Camera.main.ScreenToWorldPoint(pos + Vector3.forward);
-            PickItemPurchaseObject.transform.position = s_pos;
-
-            if (Trace)
-                Debug.Log("Pick WorldPos:" + pos.ToString());
-
         }
         return true;
     }
