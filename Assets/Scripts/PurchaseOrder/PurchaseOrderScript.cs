@@ -68,7 +68,7 @@ public class PurchaseOrderScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //ランダム生成。必要なければ消しちゃってください。
+        // ランダム生成。必要なければ消しちゃってください。
         RandCreateProperty();
         setImage();
     }
@@ -191,6 +191,14 @@ public class PurchaseOrderScript : MonoBehaviour
                 return false;
             }
         }
+
+        ScoreScript nice = GetComponent<ScoreScript>();
+        if(nice != null)
+        {
+            //獲得いいね
+            nice.AddScore(1);
+        }
+        
         return true;
     }
 
