@@ -22,9 +22,12 @@ public class MouseSystem : MonoBehaviour
     //Rayの長さ
     public float _MaxDistance = 500;
 
-    Vector3 _MouseDownPosition = Vector3.zero;
+    Vector3 _MouseDownScreenPosition = Vector3.zero;
 
-    Vector3 _LastPosition = Vector3.zero;
+    /// <summary>
+    /// 1f前のマウス座標
+    /// </summary>
+    Vector3 _LastMousePoint = Vector3.zero;
 
     /// <summary>
     /// マウスダウンした直後において
@@ -36,7 +39,7 @@ public class MouseSystem : MonoBehaviour
 
     public MouseState State = MouseState.Invalid;
 
-    public LayerMask _Mask;
+    public LayerMask _Mask = new LayerMask() { value = 1 };
 
     public ItemImage PickItemImageComponent;
 
@@ -44,7 +47,7 @@ public class MouseSystem : MonoBehaviour
     void Start()
     {
         State = MouseState.MouseMove;
-        _LastPosition = Input.mousePosition;
+        _LastMousePoint = Input.mousePosition;
     }
 
     // Update is called once per frame
@@ -75,7 +78,7 @@ public class MouseSystem : MonoBehaviour
                 break;
         }
 
-        _LastPosition = newPos;
+        _LastMousePoint = newPos;
     }
 
 
@@ -98,11 +101,12 @@ public class MouseSystem : MonoBehaviour
         if(Input.GetMouseButton(0) == false)
             State = MouseState.MouseUp;
 
-        if (_LastPosition == pos)
-            return;
+        // ドラッグ中は必ず上書きしたい
+        //if (_LastMousePoint == pos)
+        //    return;
 
-        SyncPickItemImageObjectPos(pos);
-        if (Trace)
+        var synced = SyncPickItemImageObjectPos(pos);
+        if (Trace && !synced)
             Debug.Log("MouseDrag:" + pos.ToString());
 
         return;
@@ -110,7 +114,7 @@ public class MouseSystem : MonoBehaviour
 
     void OnMyMouseUp(Vector3 pos)
     {
-        _MouseDownPosition = Vector3.zero;
+        _MouseDownScreenPosition = Vector3.zero;
         State = MouseState.MouseMove;
 
         // とりあえず放す
@@ -125,11 +129,11 @@ public class MouseSystem : MonoBehaviour
     {
         if(Input.GetMouseButtonDown(0) || Input.GetMouseButton(0))
         {
-            _MouseDownPosition = pos;
+            _MouseDownScreenPosition = Camera.main.ScreenToViewportPoint(pos);
             State = MouseState.MouseDown;
         }
 
-        if (_LastPosition == pos)
+        if (_LastMousePoint == pos)
             return;
 
         if (Trace)
@@ -171,7 +175,7 @@ public class MouseSystem : MonoBehaviour
             PickItemImageObject     = obj;
             PickItemImageComponent  = img;
 
-            _PickItemMouseDiff      = obj.transform.position - _MouseDownPosition;
+            _PickItemMouseDiff      = obj.transform.position - _MouseDownScreenPosition;
         }
         else
         {
@@ -183,12 +187,17 @@ public class MouseSystem : MonoBehaviour
 
     }
 
-    void SyncPickItemImageObjectPos(Vector3 pos)
+    bool SyncPickItemImageObjectPos(Vector3 pos)
     {
         if (PickItemImageObject == null)
-            return;
+            return false;
 
-        PickItemImageObject.transform.position = pos;
-        //PickItemImageObject.transform.position = pos + _PickItemMouseDiff;
+        var s_pos = Camera.main.ScreenToWorldPoint(pos + Vector3.forward);
+        PickItemImageObject.transform.position = s_pos;
+
+        if(Trace)
+            Debug.Log("Pick WorldPos:" + pos.ToString());
+
+        return true;
     }
 }
