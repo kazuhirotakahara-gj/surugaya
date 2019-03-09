@@ -5,7 +5,6 @@ using UnityEngine;
 public class SelectMenu : MonoBehaviour
 {
     public Color SelectingColor = Color.white;
-
     // Start is called before the first frame update
     void Start()
     {

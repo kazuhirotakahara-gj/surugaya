@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class TitleMenu : MonoBehaviour
 {
+    public AudioSource DecisionSound;
     // Start is called before the first frame update
     void Start()
     {
@@ -18,21 +19,25 @@ public class TitleMenu : MonoBehaviour
 
     public void OnClickCampaignMode()
     {
+        DecisionSound.Play();
         UnityEngine.SceneManagement.SceneManager.LoadScene("Scenes/Game");
     }
 
     public void OnClickExtraContents()
     {
+        DecisionSound.Play();
         UnityEngine.SceneManagement.SceneManager.LoadScene("Scenes/Test/DragAndDropTest");
     }
 
     public void OnClickOptions()
     {
+        DecisionSound.Play();
         UnityEngine.SceneManagement.SceneManager.LoadScene("Scenes/Options");
     }
 
     public void OnClickCredits()
     {
+        DecisionSound.Play();
         UnityEngine.SceneManagement.SceneManager.LoadScene("Scenes/Credits");
     }
 }

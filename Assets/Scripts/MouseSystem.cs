@@ -112,7 +112,6 @@ public class MouseSystem : MonoBehaviour
             var synced = SyncPickItemPurchaseObjectPos(pos);
             if (Trace && !synced)
                 Debug.Log("MouseDrag:" + pos.ToString());
-            
         }
 
         return;
@@ -228,8 +227,6 @@ public class MouseSystem : MonoBehaviour
             PickItemPurchaseObject = null;
             PickParchaseComponent = null;
         }
-
-
     }
 
     bool SyncPickItemImageObjectPos(Vector3 pos)
