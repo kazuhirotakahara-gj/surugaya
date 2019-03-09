@@ -29,7 +29,7 @@ public class PurchaseOederScript : MonoBehaviour
     public static GameObject Create(GameObject _parent, string _path)
     {
         GameObject prefab = Resources.Load<GameObject>(_path);
-        GameObject instance = GameObject.Instantiate(prefab);]
+        GameObject instance = GameObject.Instantiate(prefab);
 
         if (_parent != null)
         {
