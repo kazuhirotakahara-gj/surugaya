@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PutItem : MonoBehaviour
+public class ItemSpawnManager : MonoBehaviour
 {
+    public GameObject[] ItemsList;
+
     // Start is called before the first frame update
     void Start()
     {

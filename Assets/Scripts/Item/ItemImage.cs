@@ -17,6 +17,16 @@ public class ItemImage : MonoBehaviour
         AtBelt,
     }
 
+    public bool IsMousePicking
+    {
+        get
+        {
+            return State == ItemImageState.PickMouse;
+        }
+    }
+
+    public PurchaseOrderScript.ItemName Name = PurchaseOrderScript.ItemName.eITEM_INVALID;
+
     public ItemImageState State;
 
     // Start is called before the first frame update
