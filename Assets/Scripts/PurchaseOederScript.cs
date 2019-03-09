@@ -16,13 +16,14 @@ public class PurchaseOederScript : MonoBehaviour
         eITEM_8,
         eITEM_9,
         eITEM_A,
+        eITEM_B,
         eITEM_INVALID,
         eITEM_MAX,
     };
 
     List<int> OrderItemList = new List<int>((int)ItemName.eITEM_MAX)
     {
-        0,0,0,0,0,0,0,0,0,0,0
+        0,0,0,0,0,0,0,0,0,0,0,0
     };
 
     public static GameObject Create(GameObject _parent, string _path)
