@@ -17,6 +17,8 @@ public class Cardboard : MonoBehaviour
 
     public enum Status { NoClose, SideClosed, TopClosed, SideTopClosed, TopSideClosed };
 
+    public bool IsScreenOver = false;
+
     private bool IsTopClosed = false;
     private bool IsSideClosed = false;
     private bool IsTopSideClosed = false;
@@ -79,6 +81,14 @@ public class Cardboard : MonoBehaviour
             var additionalPos = LastFlingVector * Time.deltaTime;
             additionalPos.z = 0;
             transform.position += additionalPos * FlingSpeed;
+
+            Vector3 screenPos = Camera.main.WorldToScreenPoint(transform.position);
+            float buffer = 100;
+            if((0-buffer < screenPos.x) || (screenPos.x <Screen.width+buffer) || (0-buffer < screenPos.y) || (screenPos.y < Screen.height+buffer))
+            {
+                IsScreenOver = true;
+                BroadcastMessage("OnCardboardDispatched", this, SendMessageOptions.DontRequireReceiver);
+            }
         }
     }
 
