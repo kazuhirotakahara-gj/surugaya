@@ -39,4 +39,8 @@ public class ScoreScript : MonoBehaviour
     {
         DestScore += AddScore;
     }
+
+    private void OnCardboardDispatched(Cardboard cardboard)
+    {
+    }
 }

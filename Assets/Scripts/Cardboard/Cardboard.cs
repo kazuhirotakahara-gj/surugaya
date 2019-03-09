@@ -15,6 +15,8 @@ public class Cardboard : MonoBehaviour
     public GameObject InBoxCollider;
     public GameObject OutBoxCollider;
 
+    public GameObject ItemsHolder;
+
     public enum Status { NoClose, SideClosed, TopClosed, SideTopClosed, TopSideClosed };
 
     public bool IsScreenOver = false;
@@ -27,6 +29,18 @@ public class Cardboard : MonoBehaviour
     private bool IsFullClosed
     {
         get { return IsTopClosed && IsSideClosed; }
+    }
+
+    public List<ItemImage> Items
+    {
+        get
+        {
+            if (!IsScreenOver) return null;
+
+            var items = new List<ItemImage>();
+            ItemsHolder.GetComponentsInChildren<ItemImage>(items);
+            return items;
+        }
     }
 
     private Queue<float> dragSpeedQueue = new Queue<float>();

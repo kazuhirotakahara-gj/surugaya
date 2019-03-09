@@ -1095,6 +1095,8 @@ MonoBehaviour:
   SideCollider: {fileID: 8863555338957439721}
   InBoxCollider: {fileID: 8863555339381802207}
   OutBoxCollider: {fileID: 8863555339793414779}
+  ItemsHolder: {fileID: 6127880533690441850}
+  IsScreenOver: 0
   FlingSpeedRatio: 0.75
   FlingSpeedAccel: 50
 --- !u!1 &8863555340255602892
