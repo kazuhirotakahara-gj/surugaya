@@ -81,13 +81,63 @@ public class PurchaseOrderScript : MonoBehaviour
 
             if (item1 == ItemName.eITEM_INVALID &&
                 item2 == ItemName.eITEM_INVALID &&
-                item3 == ItemName.eITEM_INVALID )
+                item3 == ItemName.eITEM_INVALID)
             {
                 return true;
             }
 
             return false;
         }
+
+        public bool IsSameCheck(ItemName item1, ItemName item2, ItemName item3)
+        {
+            if (mItem1 == item1)
+            {
+                item1 = ItemName.eITEM_INVALID;
+            }
+            if (mItem1 == item2)
+            {
+                item2 = ItemName.eITEM_INVALID;
+            }
+            if (mItem1 == item3)
+            {
+                item3 = ItemName.eITEM_INVALID;
+            }
+            if (mItem2 == item1)
+            {
+                item1 = ItemName.eITEM_INVALID;
+            }
+            if (mItem2 == item2)
+            {
+                item2 = ItemName.eITEM_INVALID;
+            }
+            if (mItem2 == item3)
+            {
+                item3 = ItemName.eITEM_INVALID;
+            }
+            if (mItem3 == item1)
+            {
+                item1 = ItemName.eITEM_INVALID;
+            }
+            if (mItem3 == item2)
+            {
+                item2 = ItemName.eITEM_INVALID;
+            }
+            if (mItem3 == item3)
+            {
+                item3 = ItemName.eITEM_INVALID;
+            }
+
+            if (item1 == ItemName.eITEM_INVALID &&
+                item2 == ItemName.eITEM_INVALID &&
+                item3 == ItemName.eITEM_INVALID)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
     }
 
     public GameObject Item1Object;
@@ -120,16 +170,11 @@ public class PurchaseOrderScript : MonoBehaviour
         return instance;
     }
 
-
     void SetProperty(Order order)
     {
         mOrder = order;
     }
 
-    public bool CheckOrder(Order order)
-    {
-        return mOrder.IsSameCheck(order);
-    }
     // Start is called before the first frame update
     void Start()
     {
@@ -207,6 +252,16 @@ public class PurchaseOrderScript : MonoBehaviour
                 Destroy(this.gameObject);
             }
         }
+    }
+
+
+    public bool CheckOrder(Order order)
+    {
+        return mOrder.IsSameCheck(order);
+    }
+    public bool CheckOrder(ItemName item1,ItemName item2 = ItemName.eITEM_INVALID, ItemName item3 = ItemName.eITEM_INVALID)
+    {
+        return mOrder.IsSameCheck(item1,item2,item3);
     }
 
 }
