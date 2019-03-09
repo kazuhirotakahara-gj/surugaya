@@ -30,6 +30,7 @@ public class MouseSystem : MonoBehaviour
     Vector3 _LastMousePoint = Vector3.zero;
 
     public GameObject PickItemImageObject = null;
+    public GameObject PickItemPurchaseObject = null;
 
     public MouseState State = MouseState.Invalid;
 
@@ -38,6 +39,7 @@ public class MouseSystem : MonoBehaviour
     public LayerMask _BoxMask = new LayerMask() { value = 9 };
 
     public ItemImage PickItemImageComponent;
+    public PurchaseOrderScript PickParchaseComponent;
 
     // Start is called before the first frame update
     void Start()
@@ -90,6 +92,7 @@ public class MouseSystem : MonoBehaviour
             Debug.Log("MouseDown:" + pos.ToString());
 
         SetPickItemImageObject(go);
+        SetPickParhaceObject(go);
     }
 
     void OnMyMouseDrag(Vector3 pos)
@@ -100,10 +103,17 @@ public class MouseSystem : MonoBehaviour
         // ドラッグ中は必ず上書きしたい
         //if (_LastMousePoint == pos)
         //    return;
-
-        var synced = SyncPickItemImageObjectPos(pos);
-        if (Trace && !synced)
-            Debug.Log("MouseDrag:" + pos.ToString());
+        {
+            var synced = SyncPickItemImageObjectPos(pos);
+            if (Trace && !synced)
+                Debug.Log("MouseDrag:" + pos.ToString());
+        }
+        {
+            var synced = SyncPickItemPurchaseObjectPos(pos);
+            if (Trace && !synced)
+                Debug.Log("MouseDrag:" + pos.ToString());
+            
+        }
 
         return;
     }
@@ -125,6 +135,7 @@ public class MouseSystem : MonoBehaviour
 
 
         SetPickItemImageObject(null);
+        SetPickParhaceObject(null);
 
         if (Trace)
             Debug.Log("MouseUp:" + pos.ToString());
@@ -193,17 +204,64 @@ public class MouseSystem : MonoBehaviour
 
     }
 
+    void SetPickParhaceObject(GameObject obj)
+    {
+        if (PickItemPurchaseObject == null && obj == null)
+            return;
+
+        if (PickParchaseComponent != null)
+            PickParchaseComponent.TryMouseRelease();
+
+        var objcet = obj?.GetComponent<PurchaseOrderScript>();
+        var result = false;
+
+        if (objcet != null)
+            result = objcet.TryMousePick();
+
+        if (result)
+        {
+            PickItemPurchaseObject = obj;
+            PickParchaseComponent = objcet;
+        }
+        else
+        {
+            PickItemPurchaseObject = null;
+            PickParchaseComponent = null;
+        }
+
+
+    }
+
     bool SyncPickItemImageObjectPos(Vector3 pos)
     {
         if (PickItemImageObject == null)
             return false;
 
-        var s_pos = Camera.main.ScreenToWorldPoint(pos + Vector3.forward);
-        PickItemImageObject.transform.position = s_pos;
+        if (PickItemImageObject != null)
+        {
+            var s_pos = Camera.main.ScreenToWorldPoint(pos + Vector3.forward);
+            PickItemImageObject.transform.position = s_pos;
 
-        if(Trace)
-            Debug.Log("Pick WorldPos:" + pos.ToString());
+            if (Trace)
+                Debug.Log("Pick WorldPos:" + pos.ToString());
+        }
+        return true;
+    }
 
+    bool SyncPickItemPurchaseObjectPos(Vector3 pos)
+    {
+        if (PickItemPurchaseObject == null)
+            return false;
+
+        if (PickItemPurchaseObject != null)
+        {
+            var s_pos = Camera.main.ScreenToWorldPoint(pos + Vector3.forward);
+            PickItemPurchaseObject.transform.position = s_pos;
+
+            if (Trace)
+                Debug.Log("Pick WorldPos:" + pos.ToString());
+
+        }
         return true;
     }
 }
