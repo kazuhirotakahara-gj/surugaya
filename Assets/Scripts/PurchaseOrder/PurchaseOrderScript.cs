@@ -192,7 +192,7 @@ public class PurchaseOrderScript : MonoBehaviour
         }
         else
         {
-            Item2Object.SetActive(false);
+            Item3Object.SetActive(false);
         }
     }
 
