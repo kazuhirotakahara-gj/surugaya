@@ -7,6 +7,7 @@ public class TitleMenuText : MonoBehaviour
     UnityEngine.UI.Text text;
     public SelectMenu selectMenu;
     private Color initColor;
+    public AudioSource CursorSound;
 
     // Start is called before the first frame update
     void Start()
@@ -24,6 +25,7 @@ public class TitleMenuText : MonoBehaviour
     public void OnMouseEnter()
     {
         text.color = selectMenu.SelectingColor;
+
     }
 
     public void OnMouseExit()

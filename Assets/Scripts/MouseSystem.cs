@@ -104,9 +104,9 @@ public class MouseSystem : MonoBehaviour
         else
             State = MouseState.MouseUp;
 
-        var go      = RayCastItem(pos, _PurchaseMask);
-        if(go == null)
-            go      = RayCastItem(pos, _ItemMask);
+        var go = RayCastItem(pos, _PurchaseMask);
+        if (go == null)
+            go = RayCastItem(pos, _ItemMask);
 
         SetPickObject(go);
         if (Trace)
@@ -115,7 +115,7 @@ public class MouseSystem : MonoBehaviour
 
     void OnMyMouseDrag(Vector3 pos)
     {
-        if(Input.GetMouseButton(0) == false)
+        if (Input.GetMouseButton(0) == false)
             State = MouseState.MouseUp;
 
         // ドラッグ中は必ず上書きしたい
@@ -137,7 +137,7 @@ public class MouseSystem : MonoBehaviour
         // とりあえず放す
         if (PickObject != null)
         {
-            if(IsItemPicked)
+            if (IsItemPicked)
             {
                 var openBox = RayCastItem(pos, _InBoxMask);
                 if (openBox != null)
@@ -147,7 +147,7 @@ public class MouseSystem : MonoBehaviour
                 }
             }
 
-            if(IsPurchaseOrderPicked)
+            if (IsPurchaseOrderPicked)
             {
 
             }
@@ -165,7 +165,7 @@ public class MouseSystem : MonoBehaviour
 
     void OnMyMouseMove(Vector3 pos)
     {
-        if(Input.GetMouseButtonDown(0) || Input.GetMouseButton(0))
+        if (Input.GetMouseButtonDown(0) || Input.GetMouseButton(0))
         {
             _MouseDownScreenPosition = Camera.main.ScreenToViewportPoint(pos);
             State = MouseState.MouseDown;
@@ -189,7 +189,7 @@ public class MouseSystem : MonoBehaviour
         //なにかと衝突した
         if (hit.collider)
         {
-            var go  = hit.collider.gameObject;
+            var go = hit.collider.gameObject;
             return go;
         }
 
@@ -204,21 +204,21 @@ public class MouseSystem : MonoBehaviour
         if (IsPurchaseOrderPicked)
             PickPurchaseOrderComponent.TryMouseRelease();
 
-        PickItemImageComponent      = null;
-        PickPurchaseOrderComponent  = null;
-        PickObject                  = null;
+        PickItemImageComponent = null;
+        PickPurchaseOrderComponent = null;
+        PickObject = null;
 
         if (obj == null)
             return;
 
 
         var order = obj?.GetComponent<PurchaseOrderScript>();
-        if(order != null)
+        if (order != null)
         {
-            if(order.TryMousePick())
+            if (order.TryMousePick())
             {
-                PickPurchaseOrderComponent  = order;
-                PickObject                  = obj;
+                PickPurchaseOrderComponent = order;
+                PickObject = obj;
                 return;
             }
         }
@@ -228,8 +228,8 @@ public class MouseSystem : MonoBehaviour
         {
             if (img.TryMousePick())
             {
-                PickObject              = obj;
-                PickItemImageComponent  = img;
+                PickObject = obj;
+                PickItemImageComponent = img;
                 return;
             }
         }

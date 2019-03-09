@@ -13,6 +13,7 @@ public class PleaseAnyInputFade : MonoBehaviour
     private TitleStatus Status = TitleStatus.PressAny;
 
     public GameObject NextActiveMenu;
+    public AudioSource SelectSound;
 
     // Start is called before the first frame update
     void Start()
@@ -27,6 +28,7 @@ public class PleaseAnyInputFade : MonoBehaviour
 
         if(Input.anyKey)
         {
+            SelectSound.Play();
             gameObject.SetActive(false);
             NextActiveMenu.SetActive(true);
         }
