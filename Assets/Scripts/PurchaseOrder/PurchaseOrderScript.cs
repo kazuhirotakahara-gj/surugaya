@@ -22,10 +22,77 @@ public class PurchaseOrderScript : MonoBehaviour
         eITEM_MAX,
     };
 
+
+    public class Order
+    {
+        public ItemName mItem1;
+        public ItemName mItem2;
+        public ItemName mItem3;
+
+        public Order(ItemName item1,ItemName item2,ItemName item3)
+        {
+            mItem1 = item1;
+            mItem2 = item2;
+            mItem3 = item3;
+        }
+
+        public bool IsSameCheck(Order item)
+        {
+            ItemName item1 = item.mItem1;
+            ItemName item2 = item.mItem2;
+            ItemName item3 = item.mItem3;
+
+            if (mItem1 == item1)
+            {
+                item1 = ItemName.eITEM_INVALID;
+            }
+            if (mItem1 == item2)
+            {
+                item2 = ItemName.eITEM_INVALID;
+            }
+            if (mItem1 == item3)
+            {
+                item3 = ItemName.eITEM_INVALID;
+            }
+            if (mItem2 == item1)
+            {
+                item1 = ItemName.eITEM_INVALID;
+            }
+            if (mItem2 == item2)
+            {
+                item2 = ItemName.eITEM_INVALID;
+            }
+            if (mItem2 == item3)
+            {
+                item3 = ItemName.eITEM_INVALID;
+            }
+            if (mItem3 == item1)
+            {
+                item1 = ItemName.eITEM_INVALID;
+            }
+            if (mItem3 == item2)
+            {
+                item2 = ItemName.eITEM_INVALID;
+            }
+            if (mItem3 == item3)
+            {
+                item3 = ItemName.eITEM_INVALID;
+            }
+
+            if (item1 == ItemName.eITEM_INVALID &&
+                item2 == ItemName.eITEM_INVALID &&
+                item3 == ItemName.eITEM_INVALID )
+            {
+                return true;
+            }
+
+            return false;
+        }
+    }
+
     public GameObject Item1Object;
     public GameObject Item2Object;
     public GameObject Item3Object;
-    public Canvas TextCanvas;
 
     private bool[] IsDispObject = new bool[] { false, false, false };
     private int[] IsDispSize = new int[] { 0, 0, 0 };
@@ -38,12 +105,8 @@ public class PurchaseOrderScript : MonoBehaviour
     public int Rand1Parcent ;
     public int Rand2Parcent ;
     public int Rand3Parcent ;
-
+    private Order mOrder;
     private int mWaitDestroyFlame = 0;
-    List<int> OrderItemList = new List<int>((int)ItemName.eITEM_MAX)
-    {
-        0,0,0,0,0,0,0,0,0,0,0,0
-    };
 
     public static GameObject Create(GameObject _parent, string _path)
     {
@@ -58,13 +121,15 @@ public class PurchaseOrderScript : MonoBehaviour
     }
 
 
-    void SetProperty(ItemName item1, ItemName item2 = ItemName.eITEM_INVALID, ItemName item3 = ItemName.eITEM_INVALID)
+    void SetProperty(Order order)
     {
-        OrderItemList[(int)item1] += 1;
-        OrderItemList[(int)item2] += 1;
-        OrderItemList[(int)item3] += 1;
+        mOrder = order;
     }
 
+    public bool CheckOrder(Order order)
+    {
+        return mOrder.IsSameCheck(order);
+    }
     // Start is called before the first frame update
     void Start()
     {
@@ -96,70 +161,38 @@ public class PurchaseOrderScript : MonoBehaviour
             createItem[n] = Random.Range(0, (int)ItemName.eITEM_INVALID);
         }
 
-        SetProperty((ItemName)createItem[0], (ItemName)createItem[1], (ItemName)createItem[2]);
+        SetProperty( new Order((ItemName)createItem[0], (ItemName)createItem[1], (ItemName)createItem[2]));
     }
 
     void setImage()
     {
-        int TextureIndex = 0;
-        for (int n = 0; n < (int)ItemName.eITEM_INVALID; n++)
+        if(mOrder.mItem1 != ItemName.eITEM_INVALID)
         {
-            if (OrderItemList[n] > 0)
-            {
-                //アイテムの設定
-                IsDispObject[TextureIndex] = true;
-                IsDispSize[TextureIndex] = OrderItemList[n];
-                IsDispIndex[TextureIndex] = n;
-                TextureIndex += 1;
-            }
+            Item1Object.SetActive(true);
+            Item1Object.GetComponent<Image>().sprite = TexuteImage[(int)mOrder.mItem1].sprite;
         }
-        for (int n = 0; n < 3; n++)
+        else
         {
-            if (IsDispObject[n])
-            {
-                switch (n)
-                {
-                    case 0:
-                        {
-                            Item1Object.SetActive(true);
-                            Item1Object.GetComponent<Image>().sprite = TexuteImage[IsDispIndex[n]].sprite;
-                        }
-                        break;
-                    case 1:
-                        {
-                            Item2Object.SetActive(true);
-                            Item2Object.GetComponent<Image>().sprite = TexuteImage[IsDispIndex[n]].sprite;
-                        }
-                        break;
-                    case 2:
-                        {
-                            Item3Object.SetActive(true);
-                            Item3Object.GetComponent<Image>().sprite = TexuteImage[IsDispIndex[n]].sprite;
-                        }
-                        break;
-                }
-            }
-            else
-            {
-                switch (n)
-                {
-                    case 0:
-                        {
-                            Item1Object.SetActive(false);
-                        }
-                        break;
-                    case 1:
-                        {
-                            Item2Object.SetActive(false);
-                        }
-                        break;
-                    case 2:
-                        {
-                            Item3Object.SetActive(false);
-                        }
-                        break;
-                }
-            }
+            Item1Object.SetActive(false);
+
+        }
+        if (mOrder.mItem2 != ItemName.eITEM_INVALID)
+        {
+            Item2Object.SetActive(true);
+            Item2Object.GetComponent<Image>().sprite = TexuteImage[(int)mOrder.mItem2].sprite;
+        }
+        else
+        {
+            Item2Object.SetActive(false);
+        }
+        if (mOrder.mItem3 != ItemName.eITEM_INVALID)
+        {
+            Item3Object.SetActive(true);
+            Item3Object.GetComponent<Image>().sprite = TexuteImage[(int)mOrder.mItem3].sprite;
+        }
+        else
+        {
+            Item2Object.SetActive(false);
         }
     }
 
@@ -174,32 +207,6 @@ public class PurchaseOrderScript : MonoBehaviour
                 Destroy(this.gameObject);
             }
         }
-    }
-
-    bool ItemsetCheck(ItemName item1, ItemName item2 = ItemName.eITEM_INVALID, ItemName item3 = ItemName.eITEM_INVALID)
-    {
-        mIsDestory = true;
-        mWaitDestroyFlame = 60;
-        OrderItemList[(int)item1] -= 1;
-        OrderItemList[(int)item2] -= 1;
-        OrderItemList[(int)item3] -= 1;
-        foreach (var item in OrderItemList)
-        {
-            if (item != 0)
-            {
-                //ここで×か〇かの画像を上に乗っける？
-                return false;
-            }
-        }
-
-        ScoreScript nice = GetComponent<ScoreScript>();
-        if(nice != null)
-        {
-            //獲得いいね
-            nice.AddScore(1);
-        }
-        
-        return true;
     }
 
 }
