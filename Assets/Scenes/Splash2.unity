@@ -327,7 +327,7 @@ MonoBehaviour:
   FadeSpeed: 1.15
   WaitTime: 0.2
   KeepTime: 0.75
-  NextScene: Scenes/Splash2
+  NextScene: Scenes/Title
 --- !u!4 &1240382179
 Transform:
   m_ObjectHideFlags: 0
