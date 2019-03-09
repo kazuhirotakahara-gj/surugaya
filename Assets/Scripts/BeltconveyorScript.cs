@@ -26,7 +26,7 @@ public class BeltconveyorScript : MonoBehaviour
 
         Vector3 nowposition = this.transform.position;
 
-        nowposition.x += speed;
+        nowposition.x += speed * Time.deltaTime;
         this.transform.position = nowposition;
 
         if (nowposition.x < endposition)
