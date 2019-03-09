@@ -216,7 +216,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 500
   m_TargetDisplay: 0
 --- !u!1001 &612465545
 PrefabInstance:
@@ -384,17 +384,17 @@ PrefabInstance:
     - target: {fileID: 2500026668243935336, guid: b664f30444f9eb14d9537e9fa1f6edc7,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -326.5
+      value: -422.5
       objectReference: {fileID: 0}
     - target: {fileID: 2500026668243935336, guid: b664f30444f9eb14d9537e9fa1f6edc7,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 157
+      value: 209
       objectReference: {fileID: 0}
     - target: {fileID: 2500026668243935336, guid: b664f30444f9eb14d9537e9fa1f6edc7,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 100
+      value: 125.1
       objectReference: {fileID: 0}
     - target: {fileID: 2500026668243935336, guid: b664f30444f9eb14d9537e9fa1f6edc7,
         type: 3}
@@ -435,6 +435,21 @@ PrefabInstance:
         type: 3}
       propertyPath: RearScoreText
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2500026668243935338, guid: b664f30444f9eb14d9537e9fa1f6edc7,
+        type: 3}
+      propertyPath: m_FontData.m_FontSize
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 2500026668243935338, guid: b664f30444f9eb14d9537e9fa1f6edc7,
+        type: 3}
+      propertyPath: m_FontData.m_MinSize
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2500026668243935338, guid: b664f30444f9eb14d9537e9fa1f6edc7,
+        type: 3}
+      propertyPath: m_Text
+      value: "\u3044\u3044\u306D"
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b664f30444f9eb14d9537e9fa1f6edc7, type: 3}
@@ -1005,17 +1020,17 @@ PrefabInstance:
     - target: {fileID: 2551951828154835300, guid: d0fd208589838e646aec6f2763a3e96f,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 344
+      value: -422.47
       objectReference: {fileID: 0}
     - target: {fileID: 2551951828154835300, guid: d0fd208589838e646aec6f2763a3e96f,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 157
+      value: 124
       objectReference: {fileID: 0}
     - target: {fileID: 2551951828154835300, guid: d0fd208589838e646aec6f2763a3e96f,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 100
+      value: 125.05
       objectReference: {fileID: 0}
     - target: {fileID: 2551951828154835300, guid: d0fd208589838e646aec6f2763a3e96f,
         type: 3}
@@ -1056,6 +1071,16 @@ PrefabInstance:
         type: 3}
       propertyPath: DestScore
       value: 1500
+      objectReference: {fileID: 0}
+    - target: {fileID: 2551951827206822652, guid: d0fd208589838e646aec6f2763a3e96f,
+        type: 3}
+      propertyPath: m_FontData.m_FontSize
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 2551951827206822652, guid: d0fd208589838e646aec6f2763a3e96f,
+        type: 3}
+      propertyPath: m_FontData.m_MinSize
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d0fd208589838e646aec6f2763a3e96f, type: 3}
