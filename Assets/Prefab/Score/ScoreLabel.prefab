@@ -93,7 +93,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DispScore: 0
-  DestScore: 10000
+  DestScore: 0
   MoveSize: 10
   PreviosScoreText: "\u58F2\u4E0A:"
   RearScoreText: "\u5186"

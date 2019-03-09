@@ -37,6 +37,6 @@ public class ScoreScript : MonoBehaviour
 
     public void AddScore(uint AddScore)
     {
-        DestScore = AddScore;
+        DestScore += AddScore;
     }
 }
