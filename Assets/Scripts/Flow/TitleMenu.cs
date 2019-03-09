@@ -18,7 +18,7 @@ public class TitleMenu : MonoBehaviour
 
     public void OnClickCampaignMode()
     {
-        UnityEngine.SceneManagement.SceneManager.LoadScene("Scenes/SelectLevel");
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Scenes/Game");
     }
 
     public void OnClickExtraContents()
