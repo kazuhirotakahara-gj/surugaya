@@ -29,17 +29,13 @@ public class MouseSystem : MonoBehaviour
     /// </summary>
     Vector3 _LastMousePoint = Vector3.zero;
 
-    /// <summary>
-    /// マウスダウンした直後において
-    /// pickしたアイテムと、マウスの位置の差
-    /// </summary>
-    Vector3 _PickItemMouseDiff = Vector3.zero;
-
     public GameObject PickItemImageObject = null;
 
     public MouseState State = MouseState.Invalid;
 
-    public LayerMask _Mask = new LayerMask() { value = 1 };
+    public LayerMask _ItemMask = new LayerMask() { value = 1 };
+
+    public LayerMask _BoxMask = new LayerMask() { value = 9 };
 
     public ItemImage PickItemImageComponent;
 
@@ -89,11 +85,11 @@ public class MouseSystem : MonoBehaviour
         else
             State = MouseState.MouseUp;
 
-        RayCastItem(pos);
+        var go = RayCastItem(pos, _ItemMask);
         if(Trace)
             Debug.Log("MouseDown:" + pos.ToString());
 
-        return;
+        SetPickItemImageObject(go);
     }
 
     void OnMyMouseDrag(Vector3 pos)
@@ -115,13 +111,25 @@ public class MouseSystem : MonoBehaviour
     void OnMyMouseUp(Vector3 pos)
     {
         _MouseDownScreenPosition = Vector3.zero;
-        State = MouseState.MouseMove;
 
         // とりあえず放す
+        if (PickItemImageObject != null)
+        {
+            var box = RayCastItem(pos, _BoxMask);
+            if (box != null)
+            {
+                var junc = box.GetComponent<ItemJunction>();
+                PickItemImageComponent.TryInBox(junc);
+            }
+        }
+
+
         SetPickItemImageObject(null);
 
         if (Trace)
             Debug.Log("MouseUp:" + pos.ToString());
+
+        State = MouseState.MouseMove;
         return;
     }
 
@@ -142,18 +150,20 @@ public class MouseSystem : MonoBehaviour
         return;
     }
 
-    void RayCastItem(Vector3 pos)
+    GameObject RayCastItem(Vector3 pos, LayerMask mask)
     {
         //メインカメラ上のマウスカーソルのある位置からRayを飛ばす
         var ray = Camera.main.ScreenPointToRay(pos);
-        var hit = Physics2D.Raycast((Vector2)ray.origin, (Vector2)ray.direction, _MaxDistance, _Mask);
+        var hit = Physics2D.Raycast((Vector2)ray.origin, (Vector2)ray.direction, _MaxDistance, mask);
 
         //なにかと衝突した時だけそのオブジェクトの名前をログに出す
         if (hit.collider)
         {
             var go  = hit.collider.gameObject;
-            SetPickItemImageObject(go);
+            return go;
         }
+
+        return null;
     }
 
     void SetPickItemImageObject(GameObject obj)
@@ -174,15 +184,11 @@ public class MouseSystem : MonoBehaviour
         {
             PickItemImageObject     = obj;
             PickItemImageComponent  = img;
-
-            _PickItemMouseDiff      = obj.transform.position - _MouseDownScreenPosition;
         }
         else
         {
             PickItemImageObject     = null;
             PickItemImageComponent  = null;
-
-            _PickItemMouseDiff      = Vector3.zero;
         }
 
     }

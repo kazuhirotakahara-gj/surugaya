@@ -63,7 +63,7 @@ public class ItemImage : MonoBehaviour
         State = ItemImageState.AtBelt;
 
         // 補完いる？
-        transform.position = Vector3.zero;
+        transform.localPosition = Vector3.zero;
         return true;
     }
 
@@ -78,8 +78,15 @@ public class ItemImage : MonoBehaviour
     /// <summary>
     /// 
     /// </summary>
-    public void TryInBox()
+    public bool TryInBox(ItemJunction junc)
     {
+        var trans = junc?.ItemImages?.transform;
+        if (trans == null)
+            return false;
 
+        gameObject.transform.parent = trans;
+        State = ItemImageState.AtBox;
+
+        return true;
     }
 }
