@@ -38,4 +38,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Credits.unity
     guid: d31e3da85b945b54b93adbcd16bc9770
+  - enabled: 1
+    path: Assets/Scenes/Test/DragAndDropTest.unity
+    guid: 74ef7a7f2cfe22b41955135a3aa09923
   m_configObjects: {}
