@@ -6,8 +6,12 @@ public class CardboardOpenClose : MonoBehaviour
 {
     private UnityEngine.SpriteRenderer SpriteRenderer = null;
     public UnityEngine.Sprite OpenSprite = null;
-    public UnityEngine.Sprite Close0Sprite = null;
-    public UnityEngine.Sprite Close1Sprite = null;
+
+    public UnityEngine.Sprite SideClosedSprite = null;
+    public UnityEngine.Sprite TopClosedSprite = null;
+
+    public UnityEngine.Sprite SideTopClosedSprite = null;
+    public UnityEngine.Sprite TopSideClosedSprite = null;
 
     private bool IsSideClosed = false;
     private bool IsTopClosed = false;
@@ -29,11 +33,23 @@ public class CardboardOpenClose : MonoBehaviour
 
     public void OnMouseClickBySide()
     {
-        SpriteRenderer.sprite = Close0Sprite;
+        if (IsSideClosed) return;
+
+        if(IsTopClosed)
+            SpriteRenderer.sprite = TopSideClosedSprite;
+        else
+            SpriteRenderer.sprite = SideClosedSprite;
+        IsSideClosed = true;
     }
 
     public void OnMouseClickByTop()
     {
-        SpriteRenderer.sprite = Close1Sprite;
+        if (IsTopClosed) return;
+
+        if(IsSideClosed)
+            SpriteRenderer.sprite = SideTopClosedSprite;
+        else
+            SpriteRenderer.sprite = TopClosedSprite;
+        IsTopClosed = true;
     }
 }
