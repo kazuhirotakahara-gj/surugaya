@@ -6,6 +6,10 @@ public class ItemSpawnManager : MonoBehaviour
 {
     public GameObject[] ItemsList;
 
+    public float SpawnSecond = 1.0f;
+
+    public float MoveSpeed = 1.0f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -16,5 +20,11 @@ public class ItemSpawnManager : MonoBehaviour
     void Update()
     {
         
+    }
+
+    GameObject SpawnRandom()
+    {
+        return null;
+        //Random.
     }
 }

@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5102198750777484375}
   - component: {fileID: 114783012539668466}
+  - component: {fileID: 802333311750982503}
   m_Layer: 0
   m_Name: GameSystem
   m_TagString: Untagged
@@ -54,3 +55,28 @@ MonoBehaviour:
   - {fileID: 6634620025418039746, guid: e62c1101229920846a25d1705e93abba, type: 3}
   - {fileID: 4520533175908197465, guid: babad18c751062a47abade087bbf557b, type: 3}
   - {fileID: 2896956561045193083, guid: c4f9de4a30af96746a2a6e890e53bbf8, type: 3}
+--- !u!114 &802333311750982503
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4264178573016780484}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eee1437a0694ae346b3b72c4d9244613, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Trace: 1
+  _MaxDistance: 500
+  PickItemImageObject: {fileID: 0}
+  PickItemPurchaseObject: {fileID: 0}
+  State: 0
+  _ItemMask:
+    serializedVersion: 2
+    m_Bits: 1024
+  _BoxMask:
+    serializedVersion: 2
+    m_Bits: 512
+  PickItemImageComponent: {fileID: 0}
+  PickParchaseComponent: {fileID: 0}
