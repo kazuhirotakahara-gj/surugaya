@@ -65,11 +65,7 @@ public class Cardboard : MonoBehaviour
         {
             status = value;
 
-            noCloseObj.SetActive(false);
-            sideClosedObj.SetActive(false);
-            topClosedObj.SetActive(false);
-            sideTopClosedObj.SetActive(false);
-            topSideClosedObj.SetActive(false);
+            InvisibleImages();
 
             switch(status)
             {
@@ -80,6 +76,15 @@ public class Cardboard : MonoBehaviour
                 case Status.TopSideClosed: topSideClosedObj.SetActive(true); break;
             }
         }
+    }
+
+    void InvisibleImages()
+    {
+        noCloseObj.SetActive(false);
+        sideClosedObj.SetActive(false);
+        topClosedObj.SetActive(false);
+        sideTopClosedObj.SetActive(false);
+        topSideClosedObj.SetActive(false);
     }
 
     void Start()
@@ -97,11 +102,21 @@ public class Cardboard : MonoBehaviour
             transform.position += additionalPos * FlingSpeed;
 
             Vector3 screenPos = Camera.main.WorldToScreenPoint(transform.position);
-            float buffer = 100;
+            float buffer = 200;
             if((0-buffer < screenPos.x) || (screenPos.x <Screen.width+buffer) || (0-buffer < screenPos.y) || (screenPos.y < Screen.height+buffer))
             {
                 IsScreenOver = true;
-                BroadcastMessage("OnCardboardDispatched", this, SendMessageOptions.DontRequireReceiver);
+
+                var gos = (GameObject[])GameObject.FindObjectsOfType(typeof(GameObject));
+                foreach(var go in gos)
+                {
+                    if(go != null && go.transform.parent == null)
+                    {
+                        go.BroadcastMessage("OnCardboardDispatched", this, SendMessageOptions.DontRequireReceiver);
+                    }
+                }
+                Flinging = false;
+                InvisibleImages();
             }
         }
     }

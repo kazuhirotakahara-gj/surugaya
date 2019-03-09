@@ -6,13 +6,14 @@ using UnityEngine.UI;
 
 public class ScoreScript : MonoBehaviour
 {
-    public uint DispScore = 0;
-    public uint DestScore = 0;
-    public uint MoveSize = 0;
+    public int DispScore = 0;
+    public int MoveSize = 0;
 
     public string PreviosScoreText = "";
     public string RearScoreText = "";
     public Text Label;
+
+    public ScoreData score = new ScoreData();
     
     // Start is called before the first frame update
     void Start()
@@ -23,24 +24,22 @@ public class ScoreScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(DispScore < DestScore)
-        {
-            DispScore += MoveSize;
-            if(DispScore > DestScore)
-            {
-                DispScore = DestScore;
-            }
-        }
-
         Label.text = PreviosScoreText + DispScore.ToString() + RearScoreText;
     }
 
-    public void AddScore(uint AddScore)
+    void OnCardboardDispatched(Cardboard cardboard)
     {
-        DestScore += AddScore;
-    }
+        Debug.Log("dispatched.");
 
-    private void OnCardboardDispatched(Cardboard cardboard)
-    {
+        if (cardboard.Items.Count == 0)
+        {
+            ++score.Empty;
+            DispScore -= 100;
+        }
+
+        foreach (var item in cardboard.Items)
+        {
+            DispScore += 10;
+        }
     }
 }
