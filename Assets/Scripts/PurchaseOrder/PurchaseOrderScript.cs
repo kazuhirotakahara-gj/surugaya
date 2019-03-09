@@ -23,12 +23,24 @@ public class PurchaseOrderScript : MonoBehaviour
     };
 
 
+    public enum PurchaseOrderStete
+    {
+        eState_Create = 0,      // 生成中動作
+        eState_Wait,            // 待機中動作
+        eState_Pick,            // 選択中動作
+        eState_Set,             // 段ボールへのセット動作
+        eState_Shipment,        // 出荷動作
+        eState_Result,          // 結果動作
+        eState_Delete,          // 削除動作
+    };
+
     public class Order
     {
         public ItemName mItem1;
         public ItemName mItem2;
         public ItemName mItem3;
 
+        public bool mIsSuccess = false;
         public Order(ItemName item1,ItemName item2,ItemName item3)
         {
             mItem1 = item1;
@@ -83,9 +95,11 @@ public class PurchaseOrderScript : MonoBehaviour
                 item2 == ItemName.eITEM_INVALID &&
                 item3 == ItemName.eITEM_INVALID)
             {
+                mIsSuccess = true;
                 return true;
             }
 
+            mIsSuccess = false;
             return false;
         }
 
@@ -132,31 +146,33 @@ public class PurchaseOrderScript : MonoBehaviour
                 item2 == ItemName.eITEM_INVALID &&
                 item3 == ItemName.eITEM_INVALID)
             {
+                mIsSuccess = true;
                 return true;
             }
 
+            mIsSuccess = false;
             return false;
         }
-
     }
 
     public GameObject Item1Object;
     public GameObject Item2Object;
     public GameObject Item3Object;
 
+    private Vector3 StartPos;
     private bool[] IsDispObject = new bool[] { false, false, false };
     private int[] IsDispSize = new int[] { 0, 0, 0 };
     private int[] IsDispIndex = new int[] { 0, 0, 0 };
 
     public Image[] TexuteImage = new Image[11];
 
-    private bool mIsDestory = false;
-
     public int Rand1Parcent ;
     public int Rand2Parcent ;
     public int Rand3Parcent ;
     private Order mOrder;
     private int mWaitDestroyFlame = 0;
+
+    private PurchaseOrderStete mState = PurchaseOrderStete.eState_Create;
 
     public static GameObject Create(GameObject _parent, string _path)
     {
@@ -181,7 +197,35 @@ public class PurchaseOrderScript : MonoBehaviour
         // ランダム生成。必要なければ消しちゃってください。
         RandCreateProperty();
         setImage();
+        StartPos = this.transform.position;
+        mState = PurchaseOrderStete.eState_Wait;
     }
+
+    /// <summary>
+    /// MouseのPickをキャンセル
+    /// </summary>
+    public bool TryMouseRelease()
+    {
+        if (mState != PurchaseOrderStete.eState_Pick)
+            return false;
+
+        mState = PurchaseOrderStete.eState_Wait;
+        this.transform.position = StartPos;
+        return true;
+    }
+
+    /// <summary>
+    /// MouseでPickしたい
+    /// </summary>
+    public bool TryMousePick()
+    {
+        if (mState != PurchaseOrderStete.eState_Wait)
+            return false;
+
+        mState = PurchaseOrderStete.eState_Pick;
+        return true;
+    }
+
 
     void RandCreateProperty()
     {
@@ -244,23 +288,65 @@ public class PurchaseOrderScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(mIsDestory)
+        switch(mState)
         {
-            mWaitDestroyFlame--;
-            if (mWaitDestroyFlame == 0)
-            {
-                Destroy(this.gameObject);
-            }
+            case PurchaseOrderStete.eState_Create:
+                {
+
+                }
+                break;
+            case PurchaseOrderStete.eState_Wait:
+                {
+
+                }
+                break;
+            case PurchaseOrderStete.eState_Pick:
+                {
+
+                }
+                break;
+            case PurchaseOrderStete.eState_Result:
+                {
+                    if(mOrder.mIsSuccess)
+                    {
+                        //成否表示
+                    }
+                    mWaitDestroyFlame = 60;
+                    mState = PurchaseOrderStete.eState_Delete;
+                }
+                break;
+            case PurchaseOrderStete.eState_Set:
+                {
+
+                }
+                break;
+            case PurchaseOrderStete.eState_Shipment:
+                {
+
+                }
+                break;
+            case PurchaseOrderStete.eState_Delete:
+                {
+                    mWaitDestroyFlame--;
+                    if (mWaitDestroyFlame == 0)
+                    {
+                        Destroy(this.gameObject);
+                    }
+                }
+                break;
+            default:
+                break;
         }
     }
 
-
     public bool CheckOrder(Order order)
     {
+        mState = PurchaseOrderStete.eState_Result;
         return mOrder.IsSameCheck(order);
     }
     public bool CheckOrder(ItemName item1,ItemName item2 = ItemName.eITEM_INVALID, ItemName item3 = ItemName.eITEM_INVALID)
     {
+        mState = PurchaseOrderStete.eState_Result;
         return mOrder.IsSameCheck(item1,item2,item3);
     }
 
