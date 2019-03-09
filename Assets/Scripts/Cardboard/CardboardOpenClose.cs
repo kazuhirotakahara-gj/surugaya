@@ -6,7 +6,11 @@ public class CardboardOpenClose : MonoBehaviour
 {
     private UnityEngine.SpriteRenderer SpriteRenderer = null;
     public UnityEngine.Sprite OpenSprite = null;
-    public UnityEngine.Sprite CloseSprite = null;
+    public UnityEngine.Sprite Close0Sprite = null;
+    public UnityEngine.Sprite Close1Sprite = null;
+
+    private bool IsSideClosed = false;
+    private bool IsTopClosed = false;
 
     // Start is called before the first frame update
     void Start()
@@ -23,8 +27,13 @@ public class CardboardOpenClose : MonoBehaviour
         
     }
 
-    public void OnMouseClick()
+    public void OnMouseClickBySide()
     {
-        SpriteRenderer.sprite = CloseSprite;
+        SpriteRenderer.sprite = Close0Sprite;
+    }
+
+    public void OnMouseClickByTop()
+    {
+        SpriteRenderer.sprite = Close1Sprite;
     }
 }
