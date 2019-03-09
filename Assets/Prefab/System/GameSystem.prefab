@@ -58,7 +58,7 @@ MonoBehaviour:
   IntervalSecond: 2
   CurrentIntervalSecond: 0
   CurrentMoveSpeed: 2
-  SpawnOffset: {x: 11, y: 1.2, z: 0}
+  SpawnOffset: {x: 11, y: 0.8, z: 0}
 --- !u!114 &802333311750982503
 MonoBehaviour:
   m_ObjectHideFlags: 0
