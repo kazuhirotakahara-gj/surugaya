@@ -4,7 +4,12 @@ using UnityEngine;
 
 public class ItemSpawnManager : MonoBehaviour
 {
-    public GameObject[] ItemsList;
+    private GameObject[] _ItemsList;
+
+    public GameObject[] ItemsList
+    {
+        get { return _ItemsList; }
+    }
 
     public float IntervalSecond = 2.0f;
 
@@ -13,6 +18,11 @@ public class ItemSpawnManager : MonoBehaviour
     public float CurrentMoveSpeed = 1.0f;
 
     public Vector3 SpawnOffset = new Vector3(-10, 1.2f, 0);
+
+    void OnSetCondidateItems(GameObject[] CondidateItems)
+    {
+        _ItemsList = CondidateItems;
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -43,10 +53,9 @@ public class ItemSpawnManager : MonoBehaviour
 
     GameObject SpawnRandom()
     {
-        var rand = Random.Range(0, 1.0f);
-        var randIndex = (int)(ItemsList.Length * rand);
+        var randIndex = Random.Range(0, _ItemsList.Length );
 
-        var itemSrc = ItemsList[randIndex];
+        var itemSrc = _ItemsList[randIndex];
         if (itemSrc == null)
             return null;
 

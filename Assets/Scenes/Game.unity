@@ -136,6 +136,17 @@ MonoBehaviour:
   FillCardboardIntervalSecondMax: 2
   FillPurchaseOrderIntervalSecondMin: 1
   FillPurchaseOrderIntervalSecondMax: 2
+  CondidateItems:
+  - {fileID: 6212908373289662169, guid: 0d3bb7e79a8e7c445a26becb1e2883a8, type: 3}
+  - {fileID: 2339869665432220003, guid: 26dfa41a3a82f4e469b0d8c67a334be2, type: 3}
+  - {fileID: 6915250183766612730, guid: a8df8cafa8406bc4ea4b3377c1ab6e68, type: 3}
+  - {fileID: 4885787930399302764, guid: 0c68c9108dc8b6b4b836724d5d1a4772, type: 3}
+  - {fileID: 5472391618468153627, guid: bf228ea20a0e70e439f89a8272ddca87, type: 3}
+  - {fileID: 929676166459885249, guid: 414d776834c1153428da4dd8b8bc0b4b, type: 3}
+  - {fileID: 2818484483187618802, guid: e8f8140be44e1074ea3d81f5a66a9326, type: 3}
+  - {fileID: 6634620025418039746, guid: e62c1101229920846a25d1705e93abba, type: 3}
+  - {fileID: 4520533175908197465, guid: babad18c751062a47abade087bbf557b, type: 3}
+  - {fileID: 2896956561045193083, guid: c4f9de4a30af96746a2a6e890e53bbf8, type: 3}
 --- !u!1001 &252401861
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -5,6 +5,9 @@ using UnityEngine.UI;
 
 public class PurchaseOrderScript : MonoBehaviour
 {
+    [HideInInspector]
+    public LevelController LevelController;
+
     public enum ItemName
     {
         eITEM_0 = 0,
@@ -163,8 +166,6 @@ public class PurchaseOrderScript : MonoBehaviour
     private int[] IsDispSize = new int[] { 0, 0, 0 };
     private int[] IsDispIndex = new int[] { 0, 0, 0 };
 
-    public Image[] TexuteImage = new Image[(int)ItemName.eITEM_INVALID];
-
     public int Rand1Parcent ;
     public int Rand2Parcent ;
     public int Rand3Parcent ;
@@ -284,15 +285,19 @@ public class PurchaseOrderScript : MonoBehaviour
         if (itemName != ItemName.eITEM_INVALID)
         {
             targetObject.SetActive(true);
-            var targetImage = targetObject.GetComponent<Image>();
-            var sourceImage = TexuteImage[(int)itemName];
-            if(targetImage && sourceImage)
+
+            foreach (var item in LevelController.CondidateItems)
             {
-                targetImage.sprite = sourceImage.sprite;
-            }
-            else
-            {
-                Debug.LogWarning("Invalid texture image.");
+                var itemImage = item.GetComponentInChildren<ItemImage>();
+                if (itemImage && itemImage.Name == itemName)
+                {
+                    targetObject.gameObject.GetComponentInChildren<ItemImage>().Name = itemName;
+                    var render = itemImage.gameObject.GetComponentInChildren<SpriteRenderer>();
+                    if (render)
+                    {
+                        targetObject.GetComponentInChildren<SpriteRenderer>().sprite = render.sprite;
+                    }
+                }
             }
         }
         else
