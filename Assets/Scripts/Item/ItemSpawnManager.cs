@@ -23,6 +23,7 @@ public class ItemSpawnManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+#if false
         if(CurrentIntervalSecond < 0)
         {
             CurrentIntervalSecond = IntervalSecond;
@@ -32,6 +33,12 @@ public class ItemSpawnManager : MonoBehaviour
         {
             CurrentIntervalSecond -= Time.deltaTime;
         }
+#endif
+    }
+
+    void OnFlowRequest()
+    {
+        SpawnRandom();
     }
 
     GameObject SpawnRandom()
