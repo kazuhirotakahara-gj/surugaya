@@ -80,8 +80,15 @@ public class ItemImage : MonoBehaviour
     /// </summary>
     public bool TryInBox(ItemJunction junc)
     {
-        var trans = junc?.ItemImages?.transform;
+        var itemImage = junc?.ItemImages;
+        if (itemImage == null)
+            return false;
+
+        var trans = itemImage.transform;
         if (trans == null)
+            return false;
+
+        if (3 <= trans.childCount)
             return false;
 
         gameObject.transform.parent = trans;
