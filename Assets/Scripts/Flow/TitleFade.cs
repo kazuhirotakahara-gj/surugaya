@@ -31,5 +31,10 @@ public class TitleFade : MonoBehaviour
         color.a -= Time.deltaTime * FadeSpeed;
         color.a = Mathf.Max(color.a, 0.0f);
         TargetGraphic.color = color;
+
+        if(color.a <= 0.0f)
+        {
+            gameObject.SetActive(false);
+        }
     }
 }
