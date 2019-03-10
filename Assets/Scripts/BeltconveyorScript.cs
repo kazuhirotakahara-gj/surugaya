@@ -26,7 +26,7 @@ public class BeltconveyorScript : MonoBehaviour
 
         if (nowposition.x < _Conveyor.endposition)
         {
-            nowposition.x = _Conveyor.startposition;
+            nowposition.x = _Conveyor.startposition +_Conveyor.speed * Time.deltaTime;
             this.transform.position = nowposition;
         }
     }
