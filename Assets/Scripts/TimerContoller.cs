@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class TimerContoller : MonoBehaviour
 {
@@ -79,6 +80,7 @@ public class TimerContoller : MonoBehaviour
 
     void OnTimerEnd()
     {
+        SceneManager.LoadScene("Result");
         Debug.Log( "終わり！！！！！" );
     }
 }
