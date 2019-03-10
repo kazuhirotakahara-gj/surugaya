@@ -26,7 +26,7 @@ public class TitleMenu : MonoBehaviour
     public void OnClickExtraContents()
     {
         DecisionSound.Play();
-        UnityEngine.SceneManagement.SceneManager.LoadScene("Scenes/Test/DragAndDropTest");
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Scenes/ExtraContents");
     }
 
     public void OnClickOptions()
