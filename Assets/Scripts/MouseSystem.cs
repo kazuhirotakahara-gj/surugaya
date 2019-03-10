@@ -37,6 +37,8 @@ public class MouseSystem : MonoBehaviour
 
     public LayerMask _InBoxMask = new LayerMask() { value = 9 };
 
+    public LayerMask _OutBoxMask = new LayerMask();
+
     public LayerMask _PurchaseMask = new LayerMask();
 
     public ItemImage PickItemImageComponent;
@@ -139,17 +141,22 @@ public class MouseSystem : MonoBehaviour
         {
             if (IsItemPicked)
             {
-                var openBox = RayCastItem(pos, _InBoxMask);
-                if (openBox != null)
+                var inbox = RayCastItem(pos, _InBoxMask);
+                if (inbox != null)
                 {
-                    var junc = openBox.GetComponent<ItemJunction>();
+                    var junc = inbox.GetComponent<ItemJunction>();
                     PickItemImageComponent.TryInBox(junc);
                 }
             }
 
             if (IsPurchaseOrderPicked)
             {
-
+                var outbox = RayCastItem(pos, _OutBoxMask);
+                if (outbox != null)
+                {
+                    var junc = outbox.GetComponent<ItemJunction>();
+                    PickPurchaseOrderComponent.TryOutBox(junc);
+                }
             }
         }
 

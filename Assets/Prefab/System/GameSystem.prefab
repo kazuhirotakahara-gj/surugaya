@@ -73,8 +73,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Trace: 1
   _MaxDistance: 500
-  PickItemImageObject: {fileID: 0}
-  PickItemPurchaseObject: {fileID: 0}
+  PickObject: {fileID: 0}
   State: 0
   _ItemMask:
     serializedVersion: 2
@@ -82,8 +81,11 @@ MonoBehaviour:
   _InBoxMask:
     serializedVersion: 2
     m_Bits: 512
+  _OutBoxMask:
+    serializedVersion: 2
+    m_Bits: 4096
   _PurchaseMask:
     serializedVersion: 2
     m_Bits: 2048
   PickItemImageComponent: {fileID: 0}
-  PickParchaseComponent: {fileID: 0}
+  PickPurchaseOrderComponent: {fileID: 0}

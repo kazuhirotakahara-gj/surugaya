@@ -224,6 +224,17 @@ public class PurchaseOrderScript : MonoBehaviour
         return true;
     }
 
+    public bool TryOutBox(ItemJunction junc)
+    {
+        if (junc?.ItemImages == null)
+            return false;
+
+        if (junc.ItemImages.transform.childCount != 0)
+            return false;
+
+        this.gameObject.transform.parent = junc.ItemImages.transform;
+        return true;
+    }
 
     void RandCreateProperty()
     {
