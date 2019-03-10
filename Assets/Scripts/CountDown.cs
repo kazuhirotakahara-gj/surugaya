@@ -1,16 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CountDown : MonoBehaviour
 {
     private float CountTime = 4f;
     float timecount = 0f;
+    float finishtime = 0f;
 
     public GameObject Obj_3;
     public GameObject Obj_2;
     public GameObject Obj_1;
     public GameObject Obj_start;
+    public GameObject Obj_end;
     public GameObject Watch_hands;
 
     private bool Is3Displayed = false;
@@ -49,6 +52,7 @@ public class CountDown : MonoBehaviour
                 Obj_2.SetActive(false);
                 Obj_1.SetActive(false);
                 Obj_start.SetActive(false);
+                Obj_end.SetActive(false);
             }
 
             IsStart = true;
@@ -60,6 +64,7 @@ public class CountDown : MonoBehaviour
             Obj_2.SetActive(false);
             Obj_1.SetActive(false);
             Obj_start.SetActive(true);
+            Obj_end.SetActive(false);
         }
         else if (timecount < 2)
         {
@@ -67,7 +72,7 @@ public class CountDown : MonoBehaviour
             Obj_2.SetActive(false);
             Obj_1.SetActive(true);
             Obj_start.SetActive(false);
-
+            Obj_end.SetActive(false);
         }
         else if(timecount < 3)
         {
@@ -75,6 +80,23 @@ public class CountDown : MonoBehaviour
             Obj_2.SetActive(true);
             Obj_1.SetActive(false);
             Obj_start.SetActive(false);
+            Obj_end.SetActive(false);
+        }
+
+        if (_TimerContoller.TimerState == TimerContoller.State.End)
+        {
+            Obj_end.SetActive(true);
+
+            if (IsStart == true)
+            {
+                IsStart = false;
+                finishtime = timecount;
+            }
+        }
+
+        if (Input.GetKey("escape"))
+        {
+            SceneManager.LoadScene("Result");
         }
     }
 }

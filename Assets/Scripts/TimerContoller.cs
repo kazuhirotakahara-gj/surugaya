@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class TimerContoller : MonoBehaviour
 {
@@ -38,15 +37,15 @@ public class TimerContoller : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(TimerState == State.Start || TimerState == State.Wait)
+        if (TimerState == State.Start || TimerState == State.Wait)
         {
             degree = 0;
             CalledTimerEnd = false;
 
-            if(TimerState == State.Start)
+            if (TimerState == State.Start)
                 TimerState = State.TimeCount;
         }
-        else if(TimerState == State.TimeCount)
+        else if (TimerState == State.TimeCount)
         {
             CalledTimerEnd = false;
             degree += Time.deltaTime * rorate_per_time * -1;
@@ -58,18 +57,13 @@ public class TimerContoller : MonoBehaviour
 
             this.transform.eulerAngles = new Vector3(0, 0, degree);
         }
-        else if(TimerState == State.End)
+        else if (TimerState == State.End)
         {
-            if(CalledTimerEnd == false)
+            if (CalledTimerEnd == false)
             {
                 OnTimerEnd();
                 CalledTimerEnd = true;
             }
-        }
-
-        if (Input.GetKey("escape"))
-        {
-            SceneManager.LoadScene("Result");
         }
     }
 
@@ -85,7 +79,6 @@ public class TimerContoller : MonoBehaviour
 
     void OnTimerEnd()
     {
-        SceneManager.LoadScene("Result");
         Debug.Log( "終わり！！！！！" );
     }
 }
