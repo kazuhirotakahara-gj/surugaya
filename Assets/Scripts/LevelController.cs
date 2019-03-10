@@ -47,7 +47,7 @@ public class LevelController : MonoBehaviour
     }
     #endregion
 
-    #region
+    #region FillCardboardIntervals
     public float FillCardboardIntervalSecondMin = 1.0f;
     public float FillCardboardIntervalSecondMax = 2.0f;
 
@@ -67,9 +67,31 @@ public class LevelController : MonoBehaviour
     }
     #endregion
 
+    #region FillPurchaseOrderIntervals
+    public float FillPurchaseOrderIntervalSecondMin = 1.0f;
+    public float FillPurchaseOrderIntervalSecondMax = 2.0f;
+
+    void BroadcastFillPurchaseOrderParameter()
+    {
+        var gos = (GameObject[])GameObject.FindObjectsOfType(typeof(GameObject));
+        foreach (var go in gos)
+        {
+            if (go != null && go.transform.parent == null)
+            {
+                float[] storage = new float[2];
+                storage[0] = FillPurchaseOrderIntervalSecondMin;
+                storage[1] = FillPurchaseOrderIntervalSecondMax;
+                go.BroadcastMessage("OnSetFillPurchaseOrderParameter", storage, SendMessageOptions.DontRequireReceiver);
+            }
+        }
+    }
+    #endregion
+
     void Start()
     {
         ValidateFlowInterval();
+        BroadcastFillCardboardParameter();
+        BroadcastFillPurchaseOrderParameter();
     }
 
     void Update()

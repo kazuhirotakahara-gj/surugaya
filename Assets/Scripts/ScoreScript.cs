@@ -29,8 +29,6 @@ public class ScoreScript : MonoBehaviour
 
     void OnCardboardDispatched(Cardboard cardboard)
     {
-        Debug.Log("dispatched.");
-
         if (cardboard.Items.Count == 0)
         {
             ++score.Empty;

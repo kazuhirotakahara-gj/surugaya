@@ -117,6 +117,8 @@ public class Cardboard : MonoBehaviour
                 }
                 Flinging = false;
                 InvisibleImages();
+
+                DisablePurchaseOrder();
             }
         }
     }
@@ -132,6 +134,7 @@ public class Cardboard : MonoBehaviour
         {
             CurrentStatus = Status.TopSideClosed;
             OutBoxCollider.SetActive(true);
+            DisableItems();
         }
         else
             CurrentStatus = Status.SideClosed;
@@ -148,16 +151,42 @@ public class Cardboard : MonoBehaviour
         {
             CurrentStatus = Status.SideTopClosed;
             OutBoxCollider.SetActive(true);
+            DisableItems();
         }
         else
             CurrentStatus = Status.TopClosed;
+    }
+
+    void DisableItems()
+    {
+        var itemImages = gameObject.GetComponentsInChildren<ItemImage>();
+        foreach(var itemImage in itemImages)
+        {
+            itemImage.gameObject.GetComponent<PolygonCollider2D>().enabled = false;
+            itemImage.gameObject.GetComponent<SpriteRenderer>().enabled = false;
+        }
+    }
+
+    void DisablePurchaseOrder()
+    {
+        var purchaseOrders = gameObject.GetComponentsInChildren<PurchaseOrderScript>();
+        foreach(var purchaseOrder in purchaseOrders)
+        {
+            var renders = purchaseOrder.gameObject.GetComponentsInChildren<SpriteRenderer>();
+            foreach(var render in renders)
+            {
+                render.enabled = false;
+            }
+        }
     }
 
     private Vector3 CalcDragPos()
     {
         Vector3 pos = Input.mousePosition;
         pos.z = 1;
-        return Camera.main.ScreenToWorldPoint(pos);
+        pos = Camera.main.ScreenToWorldPoint(pos);
+        pos.z = initPosition.z;
+        return pos;
     }
 
     public void OnDrag()
