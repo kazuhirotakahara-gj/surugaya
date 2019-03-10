@@ -24,7 +24,7 @@ public class ScoreScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Label.text = PreviosScoreText + DispScore.ToString() + RearScoreText;
+        Label.text = PreviosScoreText + DispScore.ToString();// + RearScoreText;
     }
 
     void OnCardboardDispatched(Cardboard cardboard)

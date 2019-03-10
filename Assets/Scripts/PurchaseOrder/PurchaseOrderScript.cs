@@ -409,13 +409,56 @@ public class PurchaseOrderScript : MonoBehaviour
         if (items == null)
             return false;
 
-        var names = new List<PurchaseOrderScript.ItemName>();
+        var image1 = Item1Object?.GetComponentInChildren<ItemImage>();
+        var image2 = Item2Object?.GetComponentInChildren<ItemImage>();
+        var image3 = Item3Object?.GetComponentInChildren<ItemImage>();
+
+        var enums = new List<ItemName>();
+        if(image1 != null && Item1Object.activeInHierarchy)
+            enums.Add(image1.Name);
+
+        if (image2 != null && Item2Object.activeInHierarchy)
+            enums.Add(image2.Name);
+
+        if (image3 != null && Item3Object.activeInHierarchy)
+            enums.Add(image3.Name);
+
+        Dictionary<ItemName, int> srcDict = new Dictionary<ItemName, int>();
+        Dictionary<ItemName, int> dstDict = new Dictionary<ItemName, int>();
+
+        foreach(var e in enums)
+        {
+            var value = 0;
+            if (srcDict.TryGetValue(e, out value))
+                srcDict[e] = ++value;
+            else
+                srcDict[e] = 1;
+        }
+
         foreach (var item in items)
-            names.Add(item.Name);
+        {
+            var e = item.Name;
+            var value = 0;
+            if (dstDict.TryGetValue(e, out value))
+                dstDict[e] = ++value;
+            else
+                dstDict[e] = 1;
+        }
 
-        var neworder = new Order(names);
-        var retValue = CheckOrder(neworder);
+        if(srcDict.Keys.Count != dstDict.Keys.Count)
+            return false;
 
-        return retValue;
+        foreach(var k in srcDict.Keys)
+        {
+            if (dstDict.ContainsKey(k) == false)
+                return false;
+
+            if (dstDict[k] != srcDict[k])
+                return false;
+        }
+
+        return true;
     }
+
+
 }
