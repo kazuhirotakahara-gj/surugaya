@@ -224,6 +224,11 @@ public class PurchaseOrderScript : MonoBehaviour
         return true;
     }
 
+    public bool IsBoxSet
+    {
+        get { return mState == PurchaseOrderStete.eState_Set; }
+    }
+
     public bool TryOutBox(ItemJunction junc)
     {
         if (junc?.ItemImages == null)
