@@ -7,7 +7,7 @@ public class CountDown : MonoBehaviour
 {
     private float CountTime = 4f;
     float timecount = 0f;
-    float finishtime = 0f;
+    float finishtimecount = 0f;
 
     public GameObject Obj_3;
     public GameObject Obj_2;
@@ -16,9 +16,6 @@ public class CountDown : MonoBehaviour
     public GameObject Obj_end;
     public GameObject Watch_hands;
 
-    private bool Is3Displayed = false;
-    private bool Is2Displayed = false;
-    private bool Is1Displayed = false;
     private bool IsStart = false;
 
     TimerContoller _TimerContoller;
@@ -27,6 +24,7 @@ public class CountDown : MonoBehaviour
     void Start()
     {
         timecount = CountTime;
+        finishtimecount = 1f;
         Obj_3.SetActive(true);
         _TimerContoller = Watch_hands.GetComponent<TimerContoller>();
     }
@@ -92,14 +90,9 @@ public class CountDown : MonoBehaviour
 
         if (_TimerContoller.TimerState == TimerContoller.State.End)
         {          
-            if (IsStart == true)
-            {
-                IsStart = false;
-                finishtime = timecount;
-                Obj_end.SetActive(true);
-            }
-
-            if (finishtime - timecount > 1)
+            Obj_end.SetActive(true);
+            finishtimecount -= Time.deltaTime;
+            if (finishtimecount < 0)
             {
                 SceneManager.LoadScene("Result");
             }
