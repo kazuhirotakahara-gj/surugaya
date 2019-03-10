@@ -11,18 +11,21 @@ public class CountDown : MonoBehaviour
     public GameObject Obj_2;
     public GameObject Obj_1;
     public GameObject Obj_start;
+    public GameObject Watch_hands;
 
     private bool Is3Displayed = false;
     private bool Is2Displayed = false;
     private bool Is1Displayed = false;
     private bool IsStart = false;
 
+    TimerContoller _TimerContoller;
+
     // Start is called before the first frame update
     void Start()
     {
         timecount = CountTime;
         Obj_3.SetActive(true);
-
+        _TimerContoller = Watch_hands.GetComponent<TimerContoller>();
     }
 
     // Update is called once per frame
@@ -32,8 +35,14 @@ public class CountDown : MonoBehaviour
 
         if (timecount < 0)
         {
+            if (IsStart == false)
+            {
+                _TimerContoller.TimerState = TimerContoller.State.Start;
+                Obj_start.SetActive(false);
+            }
+
             IsStart = true;
-            Obj_start.SetActive(false);
+
         }
         else if (timecount < 1)
         {
