@@ -108,7 +108,15 @@ public class MouseSystem : MonoBehaviour
 
         var go = RayCastItem(pos, _PurchaseMask);
         if (go == null)
+        {
             go = RayCastItem(pos, _ItemMask);
+            if(go != null)
+                AudioManager.Instance?.CallSE(AudioManager.SE_Type.ItemPick);
+        }
+        else
+        {
+            AudioManager.Instance?.CallSE(AudioManager.SE_Type.OrderPick);
+        }
 
         SetPickObject(go);
         if (Trace)
@@ -146,6 +154,11 @@ public class MouseSystem : MonoBehaviour
                 {
                     var junc = inbox.GetComponent<ItemJunction>();
                     PickItemImageComponent.TryInBox(junc);
+                    AudioManager.Instance?.CallSE(AudioManager.SE_Type.ItemPut);
+                }
+                else
+                {
+                    AudioManager.Instance?.CallSE(AudioManager.SE_Type.ItemPut);
                 }
             }
 
@@ -156,6 +169,11 @@ public class MouseSystem : MonoBehaviour
                 {
                     var junc = outbox.GetComponent<ItemJunction>();
                     PickPurchaseOrderComponent.TryOutBox(junc);
+                    AudioManager.Instance?.CallSE(AudioManager.SE_Type.OrderPut);
+                }
+                else
+                {
+                    AudioManager.Instance?.CallSE(AudioManager.SE_Type.OrderPut);
                 }
             }
         }

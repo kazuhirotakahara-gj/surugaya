@@ -60,6 +60,9 @@ public class CountDown : MonoBehaviour
         }
         else if (timecount < 1)
         {
+            if(Obj_start.activeSelf == false)
+                AudioManager.Instance?.CallSE(AudioManager.SE_Type.GameStart);
+
             Obj_3.SetActive(false);
             Obj_2.SetActive(false);
             Obj_1.SetActive(false);
@@ -68,6 +71,8 @@ public class CountDown : MonoBehaviour
         }
         else if (timecount < 2)
         {
+            if (Obj_1.activeSelf == false)
+                AudioManager.Instance?.CallSE(AudioManager.SE_Type.Countdown);
             Obj_3.SetActive(false);
             Obj_2.SetActive(false);
             Obj_1.SetActive(true);
@@ -76,6 +81,8 @@ public class CountDown : MonoBehaviour
         }
         else if(timecount < 3)
         {
+            if (Obj_2.activeSelf == false)
+                AudioManager.Instance?.CallSE(AudioManager.SE_Type.Countdown);
             Obj_3.SetActive(false);
             Obj_2.SetActive(true);
             Obj_1.SetActive(false);
