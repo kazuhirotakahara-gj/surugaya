@@ -87,11 +87,34 @@ public class LevelController : MonoBehaviour
     }
     #endregion
 
+    #region ItemSpawn
+    public GameObject[] CondidateItems = new GameObject[] { };
+
+    void BroadcastCondidateItems()
+    {
+        var gos = (GameObject[])GameObject.FindObjectsOfType(typeof(GameObject));
+        foreach (var go in gos)
+        {
+            if (go != null && go.transform.parent == null)
+            {
+                go.BroadcastMessage("OnSetCondidateItems", CondidateItems, SendMessageOptions.DontRequireReceiver);
+
+                var poSpawner = go.GetComponent<PurchaseOrderSpawner>();
+                if (poSpawner)
+                {
+                    poSpawner.LevelController = this;
+                }
+            }
+        }
+    }
+    #endregion
+
     void Start()
     {
         ValidateFlowInterval();
         BroadcastFillCardboardParameter();
         BroadcastFillPurchaseOrderParameter();
+        BroadcastCondidateItems();
     }
 
     void Update()

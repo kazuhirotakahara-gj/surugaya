@@ -5,6 +5,9 @@ using UnityEngine.UI;
 
 public class PurchaseOrderScript : MonoBehaviour
 {
+    [HideInInspector]
+    public LevelController LevelController;
+
     public enum ItemName
     {
         eITEM_0 = 0,
@@ -182,8 +185,6 @@ public class PurchaseOrderScript : MonoBehaviour
     private int[] IsDispSize = new int[] { 0, 0, 0 };
     private int[] IsDispIndex = new int[] { 0, 0, 0 };
 
-    public Image[] TexuteImage = new Image[(int)ItemName.eITEM_INVALID];
-
     public int Rand1Parcent ;
     public int Rand2Parcent ;
     public int Rand3Parcent ;
@@ -274,6 +275,13 @@ public class PurchaseOrderScript : MonoBehaviour
 
     void RandCreateProperty()
     {
+        var condidateItemNames = new List<ItemName>();
+        foreach (var item in LevelController.CondidateItems)
+        {
+            var itemImage = item.GetComponentInChildren<ItemImage>();
+            condidateItemNames.Add(itemImage.Name);
+        }
+
         var rand = Random.Range(0, Rand1Parcent+ Rand2Parcent+ Rand3Parcent);
         uint createSum = 0;
         int[] createItem = new int[3] { (int)ItemName.eITEM_INVALID, (int)ItemName.eITEM_INVALID, (int)ItemName.eITEM_INVALID, }; 
@@ -292,7 +300,7 @@ public class PurchaseOrderScript : MonoBehaviour
 
         for(int n = 0; n < createSum; n++)
         {
-            createItem[n] = Random.Range(0, (int)ItemName.eITEM_INVALID);
+            createItem[n] = Random.Range(0, condidateItemNames.Count);
         }
 
         SetProperty( new Order((ItemName)createItem[0], (ItemName)createItem[1], (ItemName)createItem[2]));
@@ -303,15 +311,19 @@ public class PurchaseOrderScript : MonoBehaviour
         if (itemName != ItemName.eITEM_INVALID)
         {
             targetObject.SetActive(true);
-            var targetImage = targetObject.GetComponent<Image>();
-            var sourceImage = TexuteImage[(int)itemName];
-            if(targetImage && sourceImage)
+
+            foreach (var item in LevelController.CondidateItems)
             {
-                targetImage.sprite = sourceImage.sprite;
-            }
-            else
-            {
-                Debug.LogWarning("Invalid texture image.");
+                var itemImage = item.GetComponentInChildren<ItemImage>();
+                if (itemImage && itemImage.Name == itemName)
+                {
+                    targetObject.gameObject.GetComponentInChildren<ItemImage>().Name = itemName;
+                    var render = itemImage.gameObject.GetComponentInChildren<SpriteRenderer>();
+                    if (render)
+                    {
+                        targetObject.GetComponentInChildren<SpriteRenderer>().sprite = render.sprite;
+                    }
+                }
             }
         }
         else

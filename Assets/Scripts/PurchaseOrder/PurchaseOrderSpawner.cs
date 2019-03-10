@@ -8,6 +8,9 @@ public class PurchaseOrderSpawner : MonoBehaviour
     public GameObject PurchaseOrderPrefab;
     public GameObject Spawned;
 
+    [HideInInspector]
+    public LevelController LevelController;
+    
     private float WaitIntervalSecondMin = 0.5f;
     private float WaitIntervalSecondMax = 1.0f;
     private float WaitInterval = 0.0f;
@@ -46,6 +49,19 @@ public class PurchaseOrderSpawner : MonoBehaviour
     {
         PreviewImages.SetActive(false);
 
+        var gos = (GameObject[])GameObject.FindObjectsOfType(typeof(GameObject));
+        foreach (var go in gos)
+        {
+            if (go != null && go.transform.parent == null)
+            {
+                var lc = go.GetComponent<LevelController>();
+                if (lc)
+                {
+                    LevelController = lc;
+                }
+            }
+        }
+
         Spawn();
     }
 
@@ -55,6 +71,7 @@ public class PurchaseOrderSpawner : MonoBehaviour
         go.transform.localPosition = Vector3.zero;
 
         lastPurchaseOrder = go.GetComponentInChildren<PurchaseOrderScript>();
+        lastPurchaseOrder.LevelController = LevelController;
     }
 
     void OnSetFillPurchaseOrderParameter(float[] fillParams)
