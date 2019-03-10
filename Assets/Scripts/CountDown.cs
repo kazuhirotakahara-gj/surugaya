@@ -91,13 +91,17 @@ public class CountDown : MonoBehaviour
         }
 
         if (_TimerContoller.TimerState == TimerContoller.State.End)
-        {
-            Obj_end.SetActive(true);
-
+        {          
             if (IsStart == true)
             {
                 IsStart = false;
                 finishtime = timecount;
+                Obj_end.SetActive(true);
+            }
+
+            if (finishtime - timecount > 1)
+            {
+                SceneManager.LoadScene("Result");
             }
         }
 
