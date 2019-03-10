@@ -133,11 +133,15 @@ public class Cardboard : MonoBehaviour
         if (IsTopClosed)
         {
             CurrentStatus = Status.TopSideClosed;
+            AudioManager.Instance?.CallSE(AudioManager.SE_Type.MakeBox2);
             OutBoxCollider.SetActive(true);
             DisableItems();
         }
         else
+        {
             CurrentStatus = Status.SideClosed;
+            AudioManager.Instance?.CallSE(AudioManager.SE_Type.MakeBox1);
+        }
     }
 
     public void OnMouseClickByTop()
@@ -150,11 +154,15 @@ public class Cardboard : MonoBehaviour
         if (IsSideClosed)
         {
             CurrentStatus = Status.SideTopClosed;
+            AudioManager.Instance?.CallSE(AudioManager.SE_Type.MakeBox2);
             OutBoxCollider.SetActive(true);
             DisableItems();
         }
         else
+        {
             CurrentStatus = Status.TopClosed;
+            AudioManager.Instance?.CallSE(AudioManager.SE_Type.MakeBox1);
+        }
     }
 
     void DisableItems()
@@ -207,6 +215,7 @@ public class Cardboard : MonoBehaviour
     public void OnDragBegin()
     {
         lastDragPosition = CalcDragPos();
+        AudioManager.Instance?.CallSE(AudioManager.SE_Type.SendBox);
     }
 
     public void OnEndDrag()
