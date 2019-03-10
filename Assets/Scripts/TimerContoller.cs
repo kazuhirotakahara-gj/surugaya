@@ -49,7 +49,7 @@ public class TimerContoller : MonoBehaviour
         {
             CalledTimerEnd = false;
             degree += Time.deltaTime * rorate_per_time * -1;
-            if (360 < degree)
+            if (-360 > degree)
             {
                 degree = 360;
                 TimerState = State.End;
