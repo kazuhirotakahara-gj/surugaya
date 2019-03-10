@@ -233,6 +233,7 @@ public class PurchaseOrderScript : MonoBehaviour
             return false;
 
         this.gameObject.transform.parent = junc.ItemImages.transform;
+        mState = PurchaseOrderStete.eState_Set;
         return true;
     }
 
