@@ -252,6 +252,8 @@ public class PurchaseOrderScript : MonoBehaviour
         get { return mState == PurchaseOrderStete.eState_Set; }
     }
 
+    public bool IsOutBoxed = false;
+
     public bool TryOutBox(ItemJunction junc)
     {
         if (junc?.ItemImages == null)
@@ -269,6 +271,8 @@ public class PurchaseOrderScript : MonoBehaviour
         {
             itemImage.GetComponent<PolygonCollider2D>().enabled = false;
         }
+
+        IsOutBoxed = true;
 
         return true;
     }
