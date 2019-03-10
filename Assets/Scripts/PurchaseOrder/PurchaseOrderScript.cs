@@ -44,6 +44,25 @@ public class PurchaseOrderScript : MonoBehaviour
         public ItemName mItem3;
 
         public bool mIsSuccess = false;
+        public Order(IEnumerable<ItemName> items)
+        {
+            var i = 0;
+            foreach(var item in items)
+            {
+                switch(i++)
+                {
+                    case 0:
+                        mItem1 = item;
+                        break;
+                    case 1:
+                        mItem2 = item;
+                        break;
+                    case 2:
+                        mItem3 = item;
+                        break;
+                }
+            }
+        }
         public Order(ItemName item1,ItemName item2,ItemName item3)
         {
             mItem1 = item1;
@@ -256,6 +275,13 @@ public class PurchaseOrderScript : MonoBehaviour
 
     void RandCreateProperty()
     {
+        var condidateItemNames = new List<ItemName>();
+        foreach (var item in LevelController.CondidateItems)
+        {
+            var itemImage = item.GetComponentInChildren<ItemImage>();
+            condidateItemNames.Add(itemImage.Name);
+        }
+
         var rand = Random.Range(0, Rand1Parcent+ Rand2Parcent+ Rand3Parcent);
         uint createSum = 0;
         int[] createItem = new int[3] { (int)ItemName.eITEM_INVALID, (int)ItemName.eITEM_INVALID, (int)ItemName.eITEM_INVALID, }; 
@@ -274,7 +300,7 @@ public class PurchaseOrderScript : MonoBehaviour
 
         for(int n = 0; n < createSum; n++)
         {
-            createItem[n] = Random.Range(0, (int)ItemName.eITEM_INVALID);
+            createItem[n] = Random.Range(0, condidateItemNames.Count);
         }
 
         SetProperty( new Order((ItemName)createItem[0], (ItemName)createItem[1], (ItemName)createItem[2]));
@@ -378,4 +404,18 @@ public class PurchaseOrderScript : MonoBehaviour
         return mOrder.IsSameCheck(item1,item2,item3);
     }
 
+    public bool CheckOrder(IEnumerable<ItemImage> items)
+    {
+        if (items == null)
+            return false;
+
+        var names = new List<PurchaseOrderScript.ItemName>();
+        foreach (var item in items)
+            names.Add(item.Name);
+
+        var neworder = new Order(names);
+        var retValue = CheckOrder(neworder);
+
+        return retValue;
+    }
 }

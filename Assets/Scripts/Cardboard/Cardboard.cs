@@ -15,6 +15,8 @@ public class Cardboard : MonoBehaviour
     public GameObject InBoxCollider;
     public GameObject OutBoxCollider;
 
+    public GameObject PurchaseHolder;
+
     public GameObject ItemsHolder;
 
     public enum Status { NoClose, SideClosed, TopClosed, SideTopClosed, TopSideClosed };
@@ -40,6 +42,47 @@ public class Cardboard : MonoBehaviour
             var items = new List<ItemImage>();
             ItemsHolder.GetComponentsInChildren<ItemImage>(items);
             return items;
+        }
+    }
+
+    public PurchaseOrderScript PurchaseOrder
+    {
+        get
+        {
+            if (!IsScreenOver)
+                return null;
+
+            if (PurchaseHolder == null)
+                return null;
+            
+            var order = PurchaseHolder.GetComponentsInChildren<PurchaseOrderScript>();
+            if (order.Length == 0)
+                return null;
+
+            return order[0];
+        }
+    }
+
+    public bool IsEmpty
+    {
+        get
+        {
+            if (Items == null || Items.Count == 0)
+                return true;
+
+            return false;
+        }
+    }
+
+    public bool IsGoodjob
+    {
+        get
+        {
+            if (PurchaseOrder == null)
+                return false;
+
+            var retValue = PurchaseOrder.CheckOrder(Items);
+            return retValue;
         }
     }
 

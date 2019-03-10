@@ -29,15 +29,15 @@ public class ScoreScript : MonoBehaviour
 
     void OnCardboardDispatched(Cardboard cardboard)
     {
-        if (cardboard.Items.Count == 0)
-        {
-            ++score.Empty;
-            DispScore -= 100;
-        }
+        if (cardboard == null)
+            return;
 
-        foreach (var item in cardboard.Items)
-        {
-            DispScore += 10;
-        }
+        if (cardboard.IsEmpty)
+            ++score.Empty;
+
+        if(cardboard.IsGoodjob)
+            ++score.GoodJob;
+
+        DispScore = score.GoodJob;
     }
 }

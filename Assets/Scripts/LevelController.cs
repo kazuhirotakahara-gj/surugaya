@@ -109,6 +109,14 @@ public class LevelController : MonoBehaviour
     }
     #endregion
 
+    private void Awake()
+    {
+        if (CurrentLevel.CondidateItems != null && CurrentLevel.CondidateItems.Length > 0)
+        {
+            CondidateItems = CurrentLevel.CondidateItems;
+        }
+    }
+
     void Start()
     {
         ValidateFlowInterval();
