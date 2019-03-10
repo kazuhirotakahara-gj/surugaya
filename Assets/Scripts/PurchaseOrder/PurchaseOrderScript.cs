@@ -41,6 +41,25 @@ public class PurchaseOrderScript : MonoBehaviour
         public ItemName mItem3;
 
         public bool mIsSuccess = false;
+        public Order(IEnumerable<ItemName> items)
+        {
+            var i = 0;
+            foreach(var item in items)
+            {
+                switch(i++)
+                {
+                    case 0:
+                        mItem1 = item;
+                        break;
+                    case 1:
+                        mItem2 = item;
+                        break;
+                    case 2:
+                        mItem3 = item;
+                        break;
+                }
+            }
+        }
         public Order(ItemName item1,ItemName item2,ItemName item3)
         {
             mItem1 = item1;
@@ -373,4 +392,18 @@ public class PurchaseOrderScript : MonoBehaviour
         return mOrder.IsSameCheck(item1,item2,item3);
     }
 
+    public bool CheckOrder(IEnumerable<ItemImage> items)
+    {
+        if (items == null)
+            return false;
+
+        var names = new List<PurchaseOrderScript.ItemName>();
+        foreach (var item in items)
+            names.Add(item.Name);
+
+        var neworder = new Order(names);
+        var retValue = CheckOrder(neworder);
+
+        return retValue;
+    }
 }
