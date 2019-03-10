@@ -16,8 +16,8 @@ TagManager:
   - PostProcessing
   - InBox
   - InBeltItem
-  - 
-  - 
+  - PurchaseOrder
+  - OutBox
   - 
   - 
   - 
