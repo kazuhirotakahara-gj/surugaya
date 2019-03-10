@@ -181,6 +181,9 @@ public class PurchaseOrderScript : MonoBehaviour
         if (_parent != null)
         {
             instance.transform.SetParent(_parent.transform);
+            var pos = instance.transform.position;
+            pos.z = 100;
+            instance.transform.position = pos;
         }
         return instance;
     }
@@ -239,6 +242,14 @@ public class PurchaseOrderScript : MonoBehaviour
 
         this.gameObject.transform.parent = junc.ItemImages.transform;
         mState = PurchaseOrderStete.eState_Set;
+        GetComponent<BoxCollider2D>().enabled = false;
+
+        var itemImages = gameObject.GetComponentsInChildren<ItemImage>();
+        foreach(var itemImage in itemImages)
+        {
+            itemImage.GetComponent<PolygonCollider2D>().enabled = false;
+        }
+
         return true;
     }
 

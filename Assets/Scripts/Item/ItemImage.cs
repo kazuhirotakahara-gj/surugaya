@@ -97,6 +97,12 @@ public class ItemImage : MonoBehaviour
         if(sprite != null)
             sprite.sortingOrder = 41;
 
+        var collider = gameObject.GetComponent<BoxCollider2D>();
+        if(collider)
+        {
+            collider.enabled = false;
+        }
+
         return true;
     }
 }
