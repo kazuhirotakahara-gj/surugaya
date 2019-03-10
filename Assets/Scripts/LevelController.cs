@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class LevelController : MonoBehaviour
 {
+    #region FlowIntervals
     public float FlowIntervalSecondMin = 0.5f;
     public float FlowIntervalSecondMax = 1.0f;
     private float FlowInterval = 0.0f;
@@ -44,6 +45,27 @@ public class LevelController : MonoBehaviour
             }
         }
     }
+    #endregion
+
+    #region
+    public float FillCardboardIntervalSecondMin = 1.0f;
+    public float FillCardboardIntervalSecondMax = 2.0f;
+
+    void BroadcastFillCardboardParameter()
+    {
+        var gos = (GameObject[])GameObject.FindObjectsOfType(typeof(GameObject));
+        foreach (var go in gos)
+        {
+            if (go != null && go.transform.parent == null)
+            {
+                float[] storage = new float[2];
+                storage[0] = FillCardboardIntervalSecondMin;
+                storage[1] = FillCardboardIntervalSecondMax;
+                go.BroadcastMessage("OnSetFillCardboardParameter", storage, SendMessageOptions.DontRequireReceiver);
+            }
+        }
+    }
+    #endregion
 
     void Start()
     {
