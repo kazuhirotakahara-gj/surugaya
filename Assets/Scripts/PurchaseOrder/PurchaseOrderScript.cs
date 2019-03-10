@@ -163,7 +163,7 @@ public class PurchaseOrderScript : MonoBehaviour
     private int[] IsDispSize = new int[] { 0, 0, 0 };
     private int[] IsDispIndex = new int[] { 0, 0, 0 };
 
-    public Image[] TexuteImage = new Image[11];
+    public Image[] TexuteImage = new Image[(int)ItemName.eITEM_INVALID];
 
     public int Rand1Parcent ;
     public int Rand2Parcent ;
@@ -251,36 +251,33 @@ public class PurchaseOrderScript : MonoBehaviour
         SetProperty( new Order((ItemName)createItem[0], (ItemName)createItem[1], (ItemName)createItem[2]));
     }
 
+    void setImageByItem(ItemName itemName, GameObject targetObject)
+    {
+        if (itemName != ItemName.eITEM_INVALID)
+        {
+            targetObject.SetActive(true);
+            var targetImage = targetObject.GetComponent<Image>();
+            var sourceImage = TexuteImage[(int)itemName];
+            if(targetImage && sourceImage)
+            {
+                targetImage.sprite = sourceImage.sprite;
+            }
+            else
+            {
+                Debug.LogWarning("Invalid texture image.");
+            }
+        }
+        else
+        {
+            targetObject.SetActive(false);
+        }
+    }
+
     void setImage()
     {
-        if(mOrder.mItem1 != ItemName.eITEM_INVALID)
-        {
-            Item1Object.SetActive(true);
-            Item1Object.GetComponent<Image>().sprite = TexuteImage[(int)mOrder.mItem1].sprite;
-        }
-        else
-        {
-            Item1Object.SetActive(false);
-
-        }
-        if (mOrder.mItem2 != ItemName.eITEM_INVALID)
-        {
-            Item2Object.SetActive(true);
-            Item2Object.GetComponent<Image>().sprite = TexuteImage[(int)mOrder.mItem2].sprite;
-        }
-        else
-        {
-            Item2Object.SetActive(false);
-        }
-        if (mOrder.mItem3 != ItemName.eITEM_INVALID)
-        {
-            Item3Object.SetActive(true);
-            Item3Object.GetComponent<Image>().sprite = TexuteImage[(int)mOrder.mItem3].sprite;
-        }
-        else
-        {
-            Item3Object.SetActive(false);
-        }
+        setImageByItem(mOrder.mItem1, Item1Object);
+        setImageByItem(mOrder.mItem2, Item2Object);
+        setImageByItem(mOrder.mItem3, Item3Object);
     }
 
     // Update is called once per frame
