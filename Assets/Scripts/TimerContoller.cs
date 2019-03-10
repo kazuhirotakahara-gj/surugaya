@@ -66,6 +66,11 @@ public class TimerContoller : MonoBehaviour
                 CalledTimerEnd = true;
             }
         }
+
+        if (Input.GetKey("escape"))
+        {
+            SceneManager.LoadScene("Result");
+        }
     }
 
     public void SetWait()
