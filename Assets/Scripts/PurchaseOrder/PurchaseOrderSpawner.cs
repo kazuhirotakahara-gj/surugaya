@@ -34,7 +34,7 @@ public class PurchaseOrderSpawner : MonoBehaviour
 
     void UpdateWaitInterval()
     {
-        if (lastPurchaseOrder.IsBoxSet)
+        if (lastPurchaseOrder.IsBoxSet || lastPurchaseOrder.IsOutBoxed)
         {
             WaitInterval -= Time.deltaTime;
             if (WaitInterval <= 0.0f)
@@ -67,6 +67,7 @@ public class PurchaseOrderSpawner : MonoBehaviour
 
     public void Spawn()
     {
+        Debug.Log("Spawned");
         var go = Instantiate(PurchaseOrderPrefab, Spawned.transform) as GameObject;
         go.transform.localPosition = Vector3.zero;
 

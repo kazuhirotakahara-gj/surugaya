@@ -1243,6 +1243,11 @@ PrefabInstance:
       propertyPath: _PurchaseMask.m_Bits
       value: 2048
       objectReference: {fileID: 0}
+    - target: {fileID: 802333311750982503, guid: ae8138341bff36d4295cc5a15d42971b,
+        type: 3}
+      propertyPath: Trace
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 114783012539668466, guid: ae8138341bff36d4295cc5a15d42971b,
         type: 3}
       propertyPath: SpawnOffset.y
