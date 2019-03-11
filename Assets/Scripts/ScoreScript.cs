@@ -3,6 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+public static class GlobalScore
+{
+    static public int Score = 0;
+}
+
 
 public class ScoreScript : MonoBehaviour
 {
@@ -39,5 +44,7 @@ public class ScoreScript : MonoBehaviour
             ++score.GoodJob;
 
         DispScore = score.GoodJob;
+
+        GlobalScore.Score = score.GoodJob;
     }
 }
