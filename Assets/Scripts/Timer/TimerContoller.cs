@@ -37,6 +37,11 @@ public class TimerContoller : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+		if (CurrentLevel.GamePaused)
+		{
+			return;
+		}
+
         if (TimerState == State.Start || TimerState == State.Wait)
         {
             degree = 0;
@@ -62,7 +67,6 @@ public class TimerContoller : MonoBehaviour
             if (CalledTimerEnd == false)
             {
                 OnTimerEnd();
-                CalledTimerEnd = true;
             }
         }
     }
@@ -79,6 +83,20 @@ public class TimerContoller : MonoBehaviour
 
     void OnTimerEnd()
     {
-        Debug.Log( "終わり！！！！！" );
+		CalledTimerEnd = true;
     }
+
+	private uint forceFinishReqNum = 0;
+	public void OnForceFinish()
+	{
+		uint limit = 5;
+		if (forceFinishReqNum < limit)
+		{
+			++forceFinishReqNum;
+			if (forceFinishReqNum >= limit)
+			{
+				degree = -359.9f;
+			}
+		}
+	}
 }

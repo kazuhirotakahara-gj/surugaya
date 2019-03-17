@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class Result : MonoBehaviour
 {
+	public UnityEngine.UI.Text GoodNumLabel;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+		GoodNumLabel.text = GlobalScore.Score.ToString();
     }
 
     // Update is called once per frame

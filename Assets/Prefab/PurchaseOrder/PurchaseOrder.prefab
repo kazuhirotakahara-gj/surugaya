@@ -269,24 +269,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e841ee6aef9a5d347b0bae23b872dd35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  LevelController: {fileID: 0}
   Item1Object: {fileID: 8813253802664012499}
   Item2Object: {fileID: 8027721825401513718}
   Item3Object: {fileID: 1282482191312627275}
-  TexuteImage:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   Rand1Parcent: 100
   Rand2Parcent: 100
   Rand3Parcent: 100
+  IsOutBoxed: 0
 --- !u!61 &7804178171743618993
 BoxCollider2D:
   m_ObjectHideFlags: 0

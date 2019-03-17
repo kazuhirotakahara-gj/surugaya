@@ -8,6 +8,20 @@ public class PurchaseOrderScript : MonoBehaviour
     [HideInInspector]
     public LevelController LevelController;
 
+	[HideInInspector]
+	public float DisplayLimitTimer; 
+
+	[HideInInspector]
+	public float DisplayLimitInitialTimer; 
+
+	public float DisplayLimitRatio
+	{
+		get
+		{
+			return DisplayLimitTimer / DisplayLimitInitialTimer;
+		}
+	}
+
     public enum ItemName
     {
         eITEM_0 = 0,
@@ -32,9 +46,9 @@ public class PurchaseOrderScript : MonoBehaviour
         eState_Wait,            // 待機中動作
         eState_Pick,            // 選択中動作
         eState_Set,             // 段ボールへのセット動作
-        eState_Shipment,        // 出荷動作
         eState_Result,          // 結果動作
         eState_Delete,          // 削除動作
+        eState_Deleting,        // 削除動作
     };
 
     public class Order
@@ -189,7 +203,7 @@ public class PurchaseOrderScript : MonoBehaviour
     public int Rand2Parcent ;
     public int Rand3Parcent ;
     private Order mOrder;
-    private int mWaitDestroyFlame = 0;
+    private float mWaitDestroyTimer = 1;
 
     private PurchaseOrderStete mState = PurchaseOrderStete.eState_Create;
 
@@ -208,7 +222,7 @@ public class PurchaseOrderScript : MonoBehaviour
         return instance;
     }
 
-    void SetProperty(Order order)
+    public void SetProperty(Order order)
     {
         mOrder = order;
     }
@@ -216,10 +230,14 @@ public class PurchaseOrderScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // ランダム生成。必要なければ消しちゃってください。
-        RandCreateProperty();
         setImage();
         mState = PurchaseOrderStete.eState_Wait;
+
+		var validItemNum = 0;
+		validItemNum += (Item1Object.activeSelf) ? 1 : 0;
+		validItemNum += (Item2Object.activeSelf) ? 1 : 0;
+		validItemNum += (Item3Object.activeSelf) ? 1 : 0;
+		DisplayLimitInitialTimer = DisplayLimitTimer = CurrentLevel.PurchaseOrderTimeLimitMin + CurrentLevel.PurchaseOrderTimeLimitByItem * validItemNum;
     }
 
     /// <summary>
@@ -252,10 +270,14 @@ public class PurchaseOrderScript : MonoBehaviour
         get { return mState == PurchaseOrderStete.eState_Set; }
     }
 
+	[HideInInspector]
     public bool IsOutBoxed = false;
 
     public bool TryOutBox(ItemJunction junc)
     {
+		if (DisplayLimitTimer <= 0.0f)
+			return false;
+
         if (junc?.ItemImages == null)
             return false;
 
@@ -269,45 +291,12 @@ public class PurchaseOrderScript : MonoBehaviour
         var itemImages = gameObject.GetComponentsInChildren<ItemImage>();
         foreach(var itemImage in itemImages)
         {
-            itemImage.GetComponent<PolygonCollider2D>().enabled = false;
+            itemImage.GetComponent<BoxCollider2D>().enabled = false;
         }
 
         IsOutBoxed = true;
 
         return true;
-    }
-
-    void RandCreateProperty()
-    {
-        var condidateItemNames = new List<ItemName>();
-        foreach (var item in LevelController.CondidateItems)
-        {
-            var itemImage = item.GetComponentInChildren<ItemImage>();
-            condidateItemNames.Add(itemImage.Name);
-        }
-
-        var rand = Random.Range(0, Rand1Parcent+ Rand2Parcent+ Rand3Parcent);
-        uint createSum = 0;
-        int[] createItem = new int[3] { (int)ItemName.eITEM_INVALID, (int)ItemName.eITEM_INVALID, (int)ItemName.eITEM_INVALID, }; 
-        if(rand < Rand1Parcent)
-        {
-            createSum = 1;
-        }
-        else if(rand < Rand1Parcent+ Rand2Parcent)
-        {
-            createSum = 2;
-        }
-        else
-        {
-            createSum = 3;
-        }
-
-        for(int n = 0; n < createSum; n++)
-        {
-            createItem[n] = Random.Range(0, condidateItemNames.Count);
-        }
-
-        SetProperty( new Order((ItemName)createItem[0], (ItemName)createItem[1], (ItemName)createItem[2]));
     }
 
     void setImageByItem(ItemName itemName, GameObject targetObject)
@@ -346,6 +335,11 @@ public class PurchaseOrderScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+		if (!CurrentLevel.GameStarted || CurrentLevel.GamePaused)
+		{
+			return;
+		}
+
         switch(mState)
         {
             case PurchaseOrderStete.eState_Create:
@@ -365,11 +359,6 @@ public class PurchaseOrderScript : MonoBehaviour
                 break;
             case PurchaseOrderStete.eState_Result:
                 {
-                    if(mOrder.mIsSuccess)
-                    {
-                        //成否表示
-                    }
-                    mWaitDestroyFlame = 60;
                     mState = PurchaseOrderStete.eState_Delete;
                 }
                 break;
@@ -378,23 +367,41 @@ public class PurchaseOrderScript : MonoBehaviour
 
                 }
                 break;
-            case PurchaseOrderStete.eState_Shipment:
-                {
-
-                }
-                break;
             case PurchaseOrderStete.eState_Delete:
                 {
-                    mWaitDestroyFlame--;
-                    if (mWaitDestroyFlame == 0)
+					var srs = transform.parent.gameObject.GetComponentsInChildren<SpriteRenderer>();
+					foreach (var sr in srs)
+					{
+						sr.enabled = false;
+					}
+                }
+				goto case PurchaseOrderStete.eState_Deleting;
+			case PurchaseOrderStete.eState_Deleting:
+				{
+                    mWaitDestroyTimer -= Time.deltaTime;
+                    if (mWaitDestroyTimer <= 0.0f)
                     {
                         Destroy(this.gameObject);
                     }
-                }
+				}
                 break;
             default:
                 break;
         }
+
+		if (!IsOutBoxed)
+		{
+			if (DisplayLimitTimer > 0.0f)
+			{
+				DisplayLimitTimer -= Time.deltaTime;
+				if (DisplayLimitTimer <= 0.0f)
+				{
+					DisplayLimitTimer = 0.0f;
+					GetComponent<BoxCollider2D>().enabled = false;
+                    mState = PurchaseOrderStete.eState_Delete;
+				}
+			}
+		}
     }
 
     public bool CheckOrder(Order order)

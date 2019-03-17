@@ -70,6 +70,11 @@ public class MouseSystem : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+		if (!CurrentLevel.GameStarted || CurrentLevel.GamePaused)
+		{
+			return;
+		}
+
         var newPos = Input.mousePosition;
         switch (State)
         {

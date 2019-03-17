@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Item : MonoBehaviour
 {
-    public float Speed = 1.0f;
+    private float _BaseMoveSpeed = 2.0f;
 
     public bool AutoMove = false;
 
@@ -13,6 +13,9 @@ public class Item : MonoBehaviour
     private Vector3 EndPosition = Vector3.left;
 
     private bool FirstMove = true;
+
+	[HideInInspector]
+	public LevelController _LevelController;
 
     // Start is called before the first frame update
     void Start()
@@ -32,7 +35,7 @@ public class Item : MonoBehaviour
                 FirstMove = false;
             }
 
-            transform.localPosition += MoveDir * Speed * Time.deltaTime;
+            transform.localPosition += MoveDir * _LevelController.ConveyorMoveSpeed * _BaseMoveSpeed * Time.deltaTime;
 
             if(transform.localPosition.x < EndPosition.x)
                 deletable = true;

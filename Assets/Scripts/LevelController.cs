@@ -9,6 +9,8 @@ public class LevelController : MonoBehaviour
     public float FlowIntervalSecondMax = 1.0f;
     private float FlowInterval = 0.0f;
 
+	public float ConveyorMoveSpeed = 1.0f;
+
     void ValidateFlowInterval()
     {
         if (FlowIntervalSecondMin >= FlowIntervalSecondMax)
@@ -97,8 +99,6 @@ public class LevelController : MonoBehaviour
         {
             if (go != null && go.transform.parent == null)
             {
-                go.BroadcastMessage("OnSetCondidateItems", CondidateItems, SendMessageOptions.DontRequireReceiver);
-
                 var poSpawner = go.GetComponent<PurchaseOrderSpawner>();
                 if (poSpawner)
                 {
@@ -115,6 +115,8 @@ public class LevelController : MonoBehaviour
         {
             CondidateItems = CurrentLevel.CondidateItems;
         }
+
+		ConveyorMoveSpeed = CurrentLevel.ConveyorMoveSpeed;
     }
 
     void Start()

@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class CountDown : MonoBehaviour
 {
-    private float CountTime = 4f;
+    private float CountTime = 5f;
     float timecount = 0f;
     float finishtimecount = 0f;
 
@@ -24,8 +24,8 @@ public class CountDown : MonoBehaviour
     void Start()
     {
         timecount = CountTime;
-        finishtimecount = 1f;
-        Obj_3.SetActive(true);
+        finishtimecount = 1.5f;
+        Obj_3.SetActive(false);
         _TimerContoller = Watch_hands.GetComponent<TimerContoller>();
     }
 
@@ -34,7 +34,7 @@ public class CountDown : MonoBehaviour
     {
         if(0<= timecount)
         {
-            if (1 <= timecount && Input.GetMouseButtonDown(0))
+            if (1 <= timecount && Input.anyKeyDown)
                 timecount = (int)(timecount);
             else
                 timecount -= Time.deltaTime;
@@ -58,19 +58,33 @@ public class CountDown : MonoBehaviour
         }
         else if (timecount < 1)
         {
-            if(Obj_start.activeSelf == false)
-                AudioManager.Instance?.CallSE(AudioManager.SE_Type.GameStart);
+			if (Obj_start.activeSelf == false)
+			{
+				AudioManager.Instance?.CallSE(AudioManager.SE_Type.GameStart);
+			}
 
             Obj_3.SetActive(false);
             Obj_2.SetActive(false);
             Obj_1.SetActive(false);
             Obj_start.SetActive(true);
             Obj_end.SetActive(false);
+
+			var gos = (GameObject[])GameObject.FindObjectsOfType(typeof(GameObject));
+			foreach (var go in gos)
+			{
+				if (go != null && go.transform.parent == null)
+				{
+					go.BroadcastMessage("OnGameStart", SendMessageOptions.DontRequireReceiver);
+					CurrentLevel.GameStarted = true;
+				}
+			}
         }
         else if (timecount < 2)
         {
-            if (Obj_1.activeSelf == false)
-                AudioManager.Instance?.CallSE(AudioManager.SE_Type.Countdown);
+			if (Obj_1.activeSelf == false)
+			{
+				AudioManager.Instance?.CallSE(AudioManager.SE_Type.Countdown);
+			}
             Obj_3.SetActive(false);
             Obj_2.SetActive(false);
             Obj_1.SetActive(true);
@@ -79,10 +93,24 @@ public class CountDown : MonoBehaviour
         }
         else if(timecount < 3)
         {
-            if (Obj_2.activeSelf == false)
-                AudioManager.Instance?.CallSE(AudioManager.SE_Type.Countdown);
+			if (Obj_2.activeSelf == false)
+			{
+				AudioManager.Instance?.CallSE(AudioManager.SE_Type.Countdown);
+			}
             Obj_3.SetActive(false);
             Obj_2.SetActive(true);
+            Obj_1.SetActive(false);
+            Obj_start.SetActive(false);
+            Obj_end.SetActive(false);
+        }
+        else if(timecount < 4)
+        {
+			if (Obj_3.activeSelf == false)
+			{
+				AudioManager.Instance?.CallSE(AudioManager.SE_Type.Countdown);
+			}
+            Obj_3.SetActive(true);
+            Obj_2.SetActive(false);
             Obj_1.SetActive(false);
             Obj_start.SetActive(false);
             Obj_end.SetActive(false);
@@ -92,11 +120,19 @@ public class CountDown : MonoBehaviour
         {          
             Obj_end.SetActive(true);
             finishtimecount -= Time.deltaTime;
-            if (finishtimecount < 0)
+            if (finishtimecount <= 0)
             {
-                SceneManager.LoadScene("Result");
+				CurrentLevel.GameStarted = false;
             }
         }
+
+		if (!CurrentLevel.GameStarted && finishtimecount <= 0.0f)
+		{
+			if (Input.anyKeyDown)
+			{
+				SceneManager.LoadScene("Result");
+			}
+		}
 
         if (Input.GetKey("escape"))
         {

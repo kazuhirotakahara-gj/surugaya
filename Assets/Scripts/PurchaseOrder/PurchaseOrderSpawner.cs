@@ -15,7 +15,12 @@ public class PurchaseOrderSpawner : MonoBehaviour
     private float WaitIntervalSecondMax = 1.0f;
     private float WaitInterval = 0.0f;
 
-    private PurchaseOrderScript lastPurchaseOrder = null;
+    [HideInInspector]
+    public PurchaseOrderScript lastPurchaseOrder = null;
+
+	public PurchaseOrderScript.Order CurrentOrder;
+
+	public PurchaseOrderScript.Order NextOrder;
 
     void ValidateWaitInterval()
     {
@@ -34,7 +39,9 @@ public class PurchaseOrderSpawner : MonoBehaviour
 
     void UpdateWaitInterval()
     {
-        if (lastPurchaseOrder.IsBoxSet || lastPurchaseOrder.IsOutBoxed)
+        if (lastPurchaseOrder.IsBoxSet || lastPurchaseOrder.IsOutBoxed
+			|| lastPurchaseOrder.DisplayLimitTimer <= 0.0f
+			)
         {
             WaitInterval -= Time.deltaTime;
             if (WaitInterval <= 0.0f)
@@ -62,17 +69,41 @@ public class PurchaseOrderSpawner : MonoBehaviour
             }
         }
 
+		NextOrder = MakeRandomOrder();
         Spawn();
+    }
+
+    PurchaseOrderScript.Order MakeRandomOrder()
+    {
+        var condidateItemNames = new List<PurchaseOrderScript.ItemName>();
+        foreach (var item in LevelController.CondidateItems)
+        {
+            var itemImage = item.GetComponentInChildren<ItemImage>();
+            condidateItemNames.Add(itemImage.Name);
+        }
+
+		uint createSum = (uint)Random.Range(1, Mathf.Max(1,CurrentLevel.OrderMax)+1);
+        int[] createItem = new int[3] { (int)PurchaseOrderScript.ItemName.eITEM_INVALID, (int)PurchaseOrderScript.ItemName.eITEM_INVALID, (int)PurchaseOrderScript.ItemName.eITEM_INVALID, }; 
+
+        for(int n = 0; n < createSum; n++)
+        {
+            createItem[n] = Random.Range(0, condidateItemNames.Count);
+        }
+
+		return new PurchaseOrderScript.Order((PurchaseOrderScript.ItemName)createItem[0], (PurchaseOrderScript.ItemName)createItem[1], (PurchaseOrderScript.ItemName)createItem[2]);
     }
 
     public void Spawn()
     {
-        Debug.Log("Spawned");
+		CurrentOrder = NextOrder;
+		NextOrder = MakeRandomOrder();
+
         var go = Instantiate(PurchaseOrderPrefab, Spawned.transform) as GameObject;
         go.transform.localPosition = Vector3.zero;
 
         lastPurchaseOrder = go.GetComponentInChildren<PurchaseOrderScript>();
         lastPurchaseOrder.LevelController = LevelController;
+		lastPurchaseOrder.SetProperty(CurrentOrder);
     }
 
     void OnSetFillPurchaseOrderParameter(float[] fillParams)
@@ -89,5 +120,5 @@ public class PurchaseOrderSpawner : MonoBehaviour
     void Update()
     {
         UpdateWaitInterval();
-    }
+	}
 }

@@ -25,8 +25,6 @@ public class Cardboard : MonoBehaviour
 
     private bool IsTopClosed = false;
     private bool IsSideClosed = false;
-    private bool IsTopSideClosed = false;
-    private bool IsSideTopClosed = false;
 
     private bool IsFullClosed
     {
@@ -138,6 +136,11 @@ public class Cardboard : MonoBehaviour
 
     void Update()
     {
+		if (!CurrentLevel.GameStarted || CurrentLevel.GamePaused)
+		{
+			return;
+		}
+
         if(Flinging)
         {
             var additionalPos = LastFlingVector * Time.deltaTime;
@@ -168,6 +171,11 @@ public class Cardboard : MonoBehaviour
 
     public void OnMouseClickBySide()
     {
+		if (!CurrentLevel.GameStarted || CurrentLevel.GamePaused)
+		{
+			return;
+		}
+
         if (IsFullClosed && !IsSideClosed) return;
         IsSideClosed = true;
         SideCollider.SetActive(false);
@@ -189,6 +197,11 @@ public class Cardboard : MonoBehaviour
 
     public void OnMouseClickByTop()
     {
+		if (!CurrentLevel.GameStarted || CurrentLevel.GamePaused)
+		{
+			return;
+		}
+
         if (IsFullClosed && !IsTopClosed) return;
         IsTopClosed = true;
         TopCollider.SetActive(false);
@@ -213,7 +226,7 @@ public class Cardboard : MonoBehaviour
         var itemImages = gameObject.GetComponentsInChildren<ItemImage>();
         foreach(var itemImage in itemImages)
         {
-            itemImage.gameObject.GetComponent<PolygonCollider2D>().enabled = false;
+            itemImage.gameObject.GetComponent<BoxCollider2D>().enabled = false;
             itemImage.gameObject.GetComponent<SpriteRenderer>().enabled = false;
         }
     }

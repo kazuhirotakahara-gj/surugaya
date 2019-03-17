@@ -1,5 +1,31 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!61 &7083602226656633510
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6564538132418632619}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 8, y: 8}
+    newSize: {x: 0.32, y: 0.31}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 6.79, y: 7.56}
+  m_EdgeRadius: 0
 --- !u!1001 &444337303793063788
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11,6 +37,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Item_10 Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 2590596272197557988, guid: c2ac5d4c720028d4fb487374870bce77,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5876998437469826665, guid: c2ac5d4c720028d4fb487374870bce77,
         type: 3}
@@ -117,6 +148,17 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 455405443910046930, guid: c2ac5d4c720028d4fb487374870bce77,
+        type: 3}
+      propertyPath: Name
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6407221781287978093, guid: c2ac5d4c720028d4fb487374870bce77,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 08783ae7bb25b0645bfbbbdf4e053b29,
+        type: 3}
     - target: {fileID: 8689488154729078743, guid: c2ac5d4c720028d4fb487374870bce77,
         type: 3}
       propertyPath: m_Points.m_Paths.Array.data[0].Array.size
@@ -712,16 +754,12 @@ PrefabInstance:
       propertyPath: m_Points.m_Paths.Array.data[0].Array.data[57].y
       value: 0.42898452
       objectReference: {fileID: 0}
-    - target: {fileID: 6407221781287978093, guid: c2ac5d4c720028d4fb487374870bce77,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 08783ae7bb25b0645bfbbbdf4e053b29,
-        type: 3}
-    - target: {fileID: 455405443910046930, guid: c2ac5d4c720028d4fb487374870bce77,
-        type: 3}
-      propertyPath: Name
-      value: 10
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8689488154729078743, guid: c2ac5d4c720028d4fb487374870bce77, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: c2ac5d4c720028d4fb487374870bce77, type: 3}
+--- !u!1 &6564538132418632619 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6715842082924907719, guid: c2ac5d4c720028d4fb487374870bce77,
+    type: 3}
+  m_PrefabInstance: {fileID: 444337303793063788}
+  m_PrefabAsset: {fileID: 0}
