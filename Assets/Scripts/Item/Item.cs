@@ -25,6 +25,11 @@ public class Item : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+		if (CurrentLevel.GamePaused)
+		{
+			return;
+		}
+
         var deletable = false;
         if (AutoMove)
         {

@@ -25,6 +25,13 @@ public class Pause : MonoBehaviour
         UnityEngine.SceneManagement.SceneManager.LoadScene("Scenes/Title");
 	}
 
+	public void OnRestart()
+	{
+		CurrentLevel.GameStarted = false;
+		CurrentLevel.GamePaused = false;
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Scenes/Game");
+	}
+
 	public void StartPause()
 	{
 		if (CurrentLevel.GameStarted)

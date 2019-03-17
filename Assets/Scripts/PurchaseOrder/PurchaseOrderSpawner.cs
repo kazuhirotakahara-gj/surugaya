@@ -40,7 +40,7 @@ public class PurchaseOrderSpawner : MonoBehaviour
     void UpdateWaitInterval()
     {
         if (lastPurchaseOrder.IsBoxSet || lastPurchaseOrder.IsOutBoxed
-			|| lastPurchaseOrder.DisplayLimitTimer <= 0.0f
+			|| (lastPurchaseOrder.DisplayLimitTimer <= 0.0f && lastPurchaseOrder.IsOrdering)
 			)
         {
             WaitInterval -= Time.deltaTime;

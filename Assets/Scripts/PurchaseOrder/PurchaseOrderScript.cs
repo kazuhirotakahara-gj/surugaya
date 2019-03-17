@@ -9,10 +9,10 @@ public class PurchaseOrderScript : MonoBehaviour
     public LevelController LevelController;
 
 	[HideInInspector]
-	public float DisplayLimitTimer; 
+	public float DisplayLimitTimer = 12; 
 
 	[HideInInspector]
-	public float DisplayLimitInitialTimer; 
+	public float DisplayLimitInitialTimer = 12; 
 
 	public float DisplayLimitRatio
 	{
@@ -237,7 +237,12 @@ public class PurchaseOrderScript : MonoBehaviour
 		validItemNum += (Item1Object.activeSelf) ? 1 : 0;
 		validItemNum += (Item2Object.activeSelf) ? 1 : 0;
 		validItemNum += (Item3Object.activeSelf) ? 1 : 0;
-		DisplayLimitInitialTimer = DisplayLimitTimer = CurrentLevel.PurchaseOrderTimeLimitMin + CurrentLevel.PurchaseOrderTimeLimitByItem * validItemNum;
+		DisplayLimitInitialTimer = CurrentLevel.PurchaseOrderTimeLimitMin + CurrentLevel.PurchaseOrderTimeLimitByItem * validItemNum;
+		if (DisplayLimitInitialTimer <= 0)
+		{
+			DisplayLimitInitialTimer = 12;
+		}
+		DisplayLimitTimer = DisplayLimitInitialTimer;
     }
 
     /// <summary>
@@ -331,6 +336,14 @@ public class PurchaseOrderScript : MonoBehaviour
         setImageByItem(mOrder.mItem2, Item2Object);
         setImageByItem(mOrder.mItem3, Item3Object);
     }
+
+	public bool IsOrdering
+	{
+		get
+		{
+			return !(mState == PurchaseOrderStete.eState_Create || mState == PurchaseOrderStete.eState_Wait);
+		}
+	}
 
     // Update is called once per frame
     void Update()

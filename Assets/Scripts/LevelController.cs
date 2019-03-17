@@ -129,6 +129,11 @@ public class LevelController : MonoBehaviour
 
     void Update()
     {
+		if (CurrentLevel.GamePaused)
+		{
+			return;
+		}
+
         UpdateFlowInterval();
     }
 }
